@@ -1,0 +1,244 @@
+.bg-green{
+	background-color: #10c05c;
+}
+
+.bg-pink{
+	background-color: #d94da6;
+}
+
+.bg-blue{
+	background-color: #307ad5;
+}
+
+.bg-realblue{
+	background-color: #172e55;
+}
+
+.bg-gray{
+	background-color: #f5f5f5;
+}
+
+.text-realblue{
+	color: #172e55 !important;
+}
+
+.bg-yellow{
+    background-color: #fec64e !important;
+}
+
+.text-yellow{
+    color: #fec64e !important;
+}
+
+.bg-brown{
+	background-color: #b48914;
+}
+
+.bg-lightblue{
+	background-color: #d2eefc;
+}
+
+.bg-darklightblue{
+	background-color: #72bdd6;
+}
+
+.bg-bluegreen{
+	background-color: #0aafb6;
+}
+
+.bg-darkbluegreen{
+	background-color: #1886ab;
+}
+
+.bg-shadowbluegreen{
+	background-color: #1b95be;
+}
+
+.bg-home{
+	background-image: url(../../images/background/bg-home.png);
+	background-size:cover;
+}
+
+.bg-corporate{
+	background-image: url(../../images/background/bg-corporate.png);
+	background-size:cover;
+}
+
+.bg-benefit{
+	background-image: url(../../images/background/bg-benefit.png);
+	background-size:cover;
+}
+
+.bg-job{
+	background-image: url(../../images/background/bg-job.png);
+	background-size:cover;
+}
+
+.bg-course{
+	background-image: url(../../images/background/bg-course.png);
+	background-size:cover;
+}
+
+.bg-magang{
+	background-image: url(../../images/background/bg-magang.png);
+	background-size:cover;
+}
+
+
+.bg-landing_page{
+	background-image: url(../../images/background/bg-landing_page.png);
+	background-size:cover;
+}
+
+#button-view:hover{
+    background-color: #fec23a;
+    color: white !important;
+}
+
+.border-yellow{
+    border:1px solid #fec64e;
+}
+
+.bg-overlay{
+	height: 500px;
+}
+
+.text-bluegreen{
+	color: #0aafb6;
+}
+
+.text-input-bottom{
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	width: 100%;
+	background-color: unset;
+    transition: background-color 1s, border-color 1s;
+}
+
+.text-input-bottom-white{
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	width: 100%;
+	background-color: unset;
+    transition: background-color 1s, border-color 1s;
+}
+
+.text-input-bottom:focus{
+    outline-width: 0;
+    border-color: #0aafb6;
+
+}
+
+.text-input-bottom-white:focus{
+    outline-width: 0;
+    border-color: white;
+}
+
+#blog_desc img{
+	width: 100% !important;
+}
+
+#paging{
+	height: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#menu span a{
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#menu span a:hover {
+    border-bottom: 3px solid #fec23a;
+}
+
+#button-login:hover a {
+    color: white !important;
+}
+
+#button-login:hover {
+    background-color: #fec23a;
+}
+
+#button-login {
+    border: 1px solid #fec23a;
+    border-radius: 10px;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+}
+
+.nav-item .active{
+    color: #fec64e !important;
+}
+
+.btn-realblue{
+    color: #fff;
+    border-color: #172e55;
+	background-color: #172e55;
+}
+
+.btn-realblue:hover{
+    color: #fff;
+    border-color: #020E22;
+	background-color: #020E22;
+}
+
+.btn-realgreen{
+    color: #fff;
+    border-color: #1C6914;
+	background-color: #1C6914;
+}
+
+.btn-realgreen:hover{
+    color: #fff;
+    border-color: #042A00;
+	background-color: #042A00;
+}
+
+.btn-realred{
+    color: #fff;
+    border-color: #7F191C;
+	background-color: #7F191C;
+}
+
+.btn-realred:hover{
+    color: #fff;
+    border-color: #330001;
+	background-color: #330001;
+}
+
+
+.btn-yellow{
+    color: #fff;
+    border-color: #fec64e;
+	background-color: #fec64e;
+}
+
+.btn-yellow:hover{
+    color: #fff;
+    border-color: #fec64e;
+	background-color: #fec64e;
+}
+
+@keyframes animation-border {
+    from {background-color: black;}
+    to {background-color: #0aafb6;}
+}
+
+@keyframes animation-border-white {
+    from {background-color: black;}
+    to {background-color: white;}
+}
+
+
