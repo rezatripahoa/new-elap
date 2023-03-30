@@ -276,6 +276,7 @@ class ReportController extends Controller
             'year',
             'type',
             'pjp',
+            'attachment',
             'category' => function ($query) use ($request) {
                 return $query->where('category_id', $request->category);
             }
@@ -290,11 +291,10 @@ class ReportController extends Controller
         $data['department'] = $department;
         $data['commission'] = implode(", ", $commission->toArray());
 
-
         $pdf = Pdf::loadView('generate.laporan_program', $data);
         return $pdf->download('Laporan Program Kerja ' . $program_kerja->name . '.pdf');
 
-        // return view('generate.laporan_narasi', $data);
+        // return view('generate.laporan_program', $data);
     }
 
     public function report_laporan_generate_admin($id, $department, Request $request)
@@ -305,6 +305,7 @@ class ReportController extends Controller
             'year',
             'type',
             'pjp',
+            'attachment',
             'category' => function ($query) use ($request) {
                 return $query->where('category_id', $request->category);
             }

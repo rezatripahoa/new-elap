@@ -3,10 +3,13 @@
 @section('content')
     @php
         $url_base = 'program_kerja';
+        $url_lampiran = 'program_kerja_attachment';
         if (auth()->user()->role == 4) {
             $url_base = 'head/' . $url_base . '_head';
+            $url_lampiran = 'head/' . $url_lampiran . '_head';
         } elseif (auth()->user()->role == 3) {
             $url_base = 'department/' . $url_base;
+            $url_lampiran = 'department/' . $url_lampiran;
         }
     @endphp
     <main>
@@ -42,6 +45,7 @@
                                 <th>No.</th>
                                 <th>Nama Program</th>
                                 <th>Tahun</th>
+                                <th>Lampiran</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,6 +57,10 @@
                                     <td>{{ $no }}.</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->year->year_name }}</td>
+                                    <td>
+                                        <a class="btn btn-realgreen w-100 mb-2"
+                                            href="{{ url($url_lampiran . '/' . $item->id) }}">Lihat Lampiran</a>
+                                    </td>
                                     <td>
                                         <a class="btn btn-realgreen w-100 mb-2"
                                             href="{{ url($url_base . '/' . $item->id) }}">Detail</a>

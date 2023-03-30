@@ -13,6 +13,7 @@ use App\Http\Controllers\HeadController;
 use App\Http\Controllers\HeaderReportController;
 use App\Http\Controllers\KetuaBidangController;
 use App\Http\Controllers\ProgramKerjaController;
+use App\Http\Controllers\ProgramKerjaReportAttachmentController;
 use App\Http\Controllers\ProgramKerjaTypeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\YearController;
@@ -97,6 +98,8 @@ Route::group(['middleware' => 'role:3'], function () {
         Route::post('laporan_keuangan', [FrontUserController::class, 'laporan_keuangan_submit']);
 
         Route::resource('program_kerja', ProgramKerjaController::class);
+        Route::resource('program_kerja_attachment', ProgramKerjaReportAttachmentController::class);
+
         Route::get('laporan_narasi', [ReportController::class, 'report_narasi']);
         Route::get('laporan_narasi_generate/{id}', [ReportController::class, 'report_narasi_generate']);
         Route::get('laporan_program_generate/{id}', [ReportController::class, 'report_program_generate']);

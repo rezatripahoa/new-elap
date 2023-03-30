@@ -34,6 +34,14 @@
     table tr :nth-child(1) {
         font-weight: bold;
     }
+
+    .page_break {
+        page-break-before: always;
+    }
+
+    .img-width {
+        width: 200px;
+    }
 </style>
 
 <body>
@@ -126,6 +134,13 @@
             <td>{{ $list->keterangan }}</td>
         </tr>
     </table>
+
+    @foreach ($list->attachment as $key => $attachment)
+        <div class="page_break"></div>
+        <h3>{{ $key+1 }}. {{ $attachment->name }}</h3>
+        <img class="img-width" src="{{ url('assets/images/attachments/' . $list->id . '/' . $attachment->file) }}"
+            alt="image">
+    @endforeach
 </body>
 
 </html>

@@ -35,4 +35,9 @@ class ProgramKerja extends Model
     {
         return $this->belongsTo(ProgramKerjaType::class, 'type_id');
     }
+
+    public function attachment()
+    {
+        return $this->hasMany(ProgramKerjaReportAttachment::class, 'program_kerja_id');
+    }
 }
