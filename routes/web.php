@@ -115,6 +115,7 @@ Route::group(['middleware' => 'role:4'], function () {
         Route::get('dashboard', [FrontHeadController::class, 'index']);
 
         Route::resource('program_kerja_head', ProgramKerjaController::class);
+        Route::resource('program_kerja_attachment_head', ProgramKerjaReportAttachmentController::class);
 
         Route::get('laporan_narasi_head', [ReportController::class, 'report_narasi']);
         Route::get('laporan_narasi_generate_head/{id}', [ReportController::class, 'report_narasi_generate']);
