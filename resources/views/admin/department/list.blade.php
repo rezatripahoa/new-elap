@@ -1,6 +1,9 @@
 @extends('admin/index')
 
 @section('content')
+    @php
+        $arrJenis = ['PUSAT', 'MUPEL', 'JEMAAT'];
+    @endphp
     <main>
         @if (Session::has('status'))
             <div class="alert alert-success mt-3 text-center">
@@ -29,8 +32,9 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Department</th>
+                                <th>Nama Pusat/Mupel/Jemaat</th>
                                 <th>Username</th>
+                                <th>Jenis</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -45,15 +49,16 @@
                                     <td>{{ $no }} </td>
                                     <td>{{ $list->department_name }}</td>
                                     <td>{{ $list->username }}</td>
+                                    <td>{{ $list->jenis }}</td>
                                     <td>{{ $list->department_status }}</td>
                                     <td>
-                                        <button class="btn btn-success btn-sm mr-2 mb-2 w-100" data-toggle="modal"
-                                            data-target="#modalKeuangan_1_2022">Edit</button>
-                                        <form action="{{ url('admin/department', $list->id) }}" method="POST"
+                                        <button class="btn btn-realgreen btn-sm mr-2 mb-2 w-100" data-toggle="modal"
+                                            data-target="#editModal{{ $list->department_id }}">Edit</button>
+                                        <form action="{{ url('admin/department', $list->department_id) }}" method="POST"
                                             enctype=multipart/form-data>
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm mr-2 mb-2 w-100"
+                                            <button type="submit" class="btn btn-realred btn-sm mr-2 mb-2 w-100"
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
                                         </form>
                                     </td>
@@ -86,26 +91,30 @@
                         @csrf
                         <div class="form-group">
                             <input class="form-control" type="text" name="department_name" value=""
-                                placeholder="Masukkan Nama Departement">
+                                placeholder="Masukkan Nama Pusat/Mupel/Jemaat" required>
                         </div>
 
                         <div class="form-group">
                             <input class="form-control" type="text" name="username" value=""
-                                placeholder="Masukkan Username">
+                                placeholder="Masukkan Username" required>
                         </div>
 
-                        {{-- <div class="form-group">
-                            <input class="form-control" type="email" name="email" value=""
-                                placeholder="Masukkan Email Departement">
-                        </div> --}}
+                        <div class="form-group">
+                            <select name="jenis" class="form-control" required>
+                                <option value="">= Pilih Jenis =</option>
+                                @foreach ($arrJenis as $item)
+                                    <option value="{{ $item }}">{{ $item }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <input class="form-control" type="password" name="password" value=""
-                                placeholder="Masukkan Password">
+                                placeholder="Masukkan Password" required>
                         </div>
 
                         <div class="form-group">
-                            <select name="department_status" class="form-control">
+                            <select name="department_status" class="form-control" required>
                                 <option value="1">Aktif</option>
                                 <option value="0">Tidak Aktif</option>
                             </select>
@@ -121,26 +130,49 @@
 
     @foreach ($data['list'] as $list)
         <!-- modal editModal -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+        <div class="modal fade" id="editModal{{ $list->department_id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editModalLabel{{ $list->department_id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModal">Tambah {{ $data['title'] }}</h5>
+                        <h5 class="modal-title" id="editModalLable{{ $list->department_id }}">Tambah {{ $data['title'] }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        <form action="{{ url('admin/category') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('admin/department', $list->department_id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
-                                <input class="form-control" type="text" name="category_name" value=""
-                                    placeholder="Masukkan Nama Kategori">
+                                <input class="form-control" type="text" name="department_name"
+                                    value="{{ $list->department_name }}" placeholder="Masukkan Nama Pusat/Mupel/Jemaat">
                             </div>
 
                             <div class="form-group">
-                                <select name="category_status" class="form-control">
+                                <input class="form-control" type="text" name="username"
+                                    value="{{ $list->username }}" placeholder="Masukkan Username">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="jenis" class="form-control" required>
+                                    <option value="">= Pilih Jenis =</option>
+                                    @foreach ($arrJenis as $item)
+                                        <option value="{{ $item }}"
+                                            @if ($list->jenis == $item) selected @endif>{{ $item }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password"
+                                    placeholder="(Jangan diisi jika tidak ingin diganti)">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="department_status" class="form-control">
                                     <option value="1">Aktif</option>
                                     <option value="0">Tidak Aktif</option>
                                 </select>

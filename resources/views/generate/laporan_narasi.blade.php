@@ -26,105 +26,83 @@
         margin-bottom: 5px;
     }
 
-    table{
-        margin-top: 20px;
-        width: 100%;
+    .header{
+        margin-bottom: 20px;
     }
 
-    table tr :nth-child(1){
-        font-weight: bold;
+    h4{
+        font-weight: lighter;
     }
 </style>
 
 <body>
-    <h3 class="mb-5 p-0">DEPARTEMEN/PELKAT : {{strtoupper($department->department_name)}}</h3>
-    <h3 class="mb-5 p-0">LAPORAN PELAKSANAAN PROGRAM KERJA</h3>
-    <h3 class="mb-5 p-0">TAHUN PROGRAM {{$list->year->year_name}}</h3>
-    <h3 class="mb-5 p-0">{{strtoupper($list->category[0]->category->category_name)}}
-        ({{$list->category[0]->category->description}})</h3>
+    <center class="header">
+        <h3 class="mb-5 p-0">LAPORAN NARASI PELAKSANAAN PROGRAM KERJA</h3>
+        <h3 class="mb-5 p-0">{{ strtoupper($list->category[0]->category->category_name) }}
+            ({{ $list->category[0]->category->description }})</h3>
+        <h3 class="mb-5 p-0">TAHUN PROGRAM {{ $list->year->year_name }}</h3>
+        <h3 class="mb-5 p-0">{{ strtoupper($department->department_name) }}</h3>
+    </center>
 
-    <table border="1" class="mt-20">
-        <tr>
-            <td>NAMA PROGRAM</td>
-            <td>:</td>
-            <td>{{$list->name}}</td>
-        </tr>
-        <tr>
-            <td>SIFAT PROGRAM</td>
-            <td>:</td>
-            <td>{{$list->type->name}}</td>
-        </tr>
-        <tr>
-            <td>TUJUAN</td>
-            <td>:</td>
-            <td>{{$list->tujuan}}</td>
-        </tr>
-        <tr>
-            <td>PJP</td>
-            <td>:</td>
-            <td>{{$list->pjp->department_name}}</td>
-        </tr>
-        <tr>
-            <td>PP</td>
-            <td>:</td>
-            <td>{{$commission}}</td>
-        </tr>
-        <tr>
-            <td>RUANG LINGKUP</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - INSCOPE</td>
-            <td>:</td>
-            <td>{{$list->inscope}}</td>
-        </tr>
-        <tr>
-            <td> - OUTSCOPE</td>
-            <td>:</td>
-            <td>{{$list->outscope}}</td>
-        </tr>
-        <tr>
-            <td>INDIKATOR KEBERHASILAN</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - KUANTITATIF</td>
-            <td>:</td>
-            <td>{{$list->indikator_kuantitatif}}</td>
-        </tr>
-        <tr>
-            <td> - KUALITATIF</td>
-            <td>:</td>
-            <td>{{$list->indikator_kualitatif}}</td>
-        </tr>
-        <tr>
-            <td>REALISASI PROGRAM</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - KUANTITATIF</td>
-            <td>:</td>
-            <td>{{$list->realisasi_kuantitatif}}</td>
-        </tr>
-        <tr>
-            <td> - KUALITATIF</td>
-            <td>:</td>
-            <td>{{$list->realisasi_kualitatif}}</td>
-        </tr>
-        <tr>
-            <td>EVALUASI</td>
-            <td>:</td>
-            <td>{{$list->evaluasi}}</td>
-        </tr>
-        <tr>
-            <td>TINDAK LANJUT</td>
-            <td>:</td>
-            <td>{{$list->tindak_lanjut}}</td>
-        </tr>
-    </table>
+    <div>
+        <h3>NAMA PROGRAM</h3>
+        <h4>{{ $list->name }}</h4>
+    </div>
+
+    <div>
+        <h3>SIFAT PROGRAM</h3>
+        <h4>{{ $list->type->name }}</h4>
+    </div>
+
+    <div>
+        <h3>TUJUAN PROGRAM</h3>
+        <h4>{{ $list->tujuan }}</h4>
+    </div>
+
+    <div>
+        <h3>PJP</h3>
+        <h4>{{ $list->pjp->department_name }}</h4>
+    </div>
+
+    <div>
+        <h3>PP</h3>
+        <h4>{{ $commission }}</h4>
+    </div>
+    <div>
+        <h3>RUANG LINGKUP</h3>
+        <div>
+            <h3>A. INSCOPE</h3>
+            <h4>{{ $list->inscope }}</h4>
+            <h3>B. OUTSCOPE</h3>
+            <h4>{{ $list->outscope }}</h4>
+        </div>
+    </div>
+    <div>
+        <h3>INDIKATOR KEBERHASILAN</h3>
+        <div>
+            <h3>A. KUANTITATIF</h3>
+            <h4>{{ $list->indikator_kuantitatif }}</h4>
+            <h3>B. KUALITATIF</h3>
+            <h4>{{ $list->indikator_kualitatif }}</h4>
+        </div>
+    </div>
+    <div>
+        <h3>REALISASI PROGRAM</h3>
+        <div>
+            <h3>A. KUANTITATIF</h3>
+            <h4>{{ $list->realisasi_kuantitatif }}</h4>
+            <h3>B. KUALITATIF</h3>
+            <h4>{{ $list->realisasi_kualitatif }}</h4>
+        </div>
+    </div>
+    <div>
+        <h3>EVALUASI</h3>
+        <h4>{{ $list->evaluasi }}</h4>
+    </div>
+    <div>
+        <h3>TINDAK LANJUT</h3>
+        <h4>{{ $list->tindak_lanjut }}</h4>
+    </div>
 </body>
 
 </html>

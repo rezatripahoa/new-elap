@@ -17,7 +17,7 @@
     @endphp
     <main>
         <p class="text-center text-secondary font-weight-bold h2 p-3">
-            List Program Kerja {{ $data['department']->department_name }}
+            Laporan Program Kerja {{ $data['department']->department_name }}
         </p>
 
         <div class="row px-4">

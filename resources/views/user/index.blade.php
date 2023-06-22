@@ -84,6 +84,17 @@
                                 <div class="p-3 h6 font-weight-bold">
                                     <div class="">
                                         <i class="fa fa-book" style="font-size:20px;"></i>
+                                        <a class="text-dark ml-3"
+                                            href="{{ url('department/program_kerja_acc?year=' . $year) }}">Program
+                                            Kerja</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded">
+                                <div class="p-3 h6 font-weight-bold">
+                                    <div class="">
+                                        <i class="fa fa-book" style="font-size:20px;"></i>
                                         <a class="text-dark ml-3" href="{{ url('department/laporan_narasi') }}">Laporan
                                             Program Kerja</a>
                                     </div>
@@ -120,6 +131,16 @@
                                         <a class="text-dark ml-3"
                                             href="{{ url('head/program_kerja_head?year=' . $year) }}">Program
                                             Kerja</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded">
+                                <div class="p-3 h6 font-weight-bold">
+                                    <div class="">
+                                        <i class="fa fa-book" style="font-size:20px;"></i>
+                                        <a class="text-dark ml-3" href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Laporan
+                                            Program Kerja (ACC)</a>
                                     </div>
                                 </div>
                             </div>

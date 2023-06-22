@@ -2,7 +2,11 @@
 
 @section('content')
     @php
-        $url_base = 'laporan_narasi';
+        if ($data['page'] == 'Laporan Narasi') {
+            $url_base = 'laporan_narasi';
+        } else {
+            $url_base = 'laporan_kegiatan';
+        }
         $url_narasi_generate = 'laporan_narasi_generate';
         $url_program_generate = 'laporan_program_generate';
         if (auth()->user()->role == 4) {
@@ -21,7 +25,7 @@
     @endphp
     <main>
         <p class="text-center text-secondary font-weight-bold h2 p-3">
-            List Program Kerja
+            Laporan Realisasi Program Kerja
         </p>
 
         <div class="row px-4">
@@ -69,12 +73,15 @@
                                     <td>{{ $no }}.</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <a class="btn btn-realblue w-100 mb-2" target="_blank"
-                                            href="{{ url($url_narasi_generate . '/' . $item->id . '?category=' . $data['curr_category']) }}">Print
-                                            Laporan Narasi</a>
-                                        <a class="btn btn-realblue w-100 mb-2" target="_blank"
-                                            href="{{ url($url_program_generate . '/' . $item->id . '?category=' . $data['curr_category']) }}">Print
-                                            Laporan Program</a>
+                                        @if ($data['page'] == 'Laporan Narasi')
+                                            <a class="btn btn-realblue w-100 mb-2" target="_blank"
+                                                href="{{ url($url_narasi_generate . '/' . $item->id . '?category=' . $data['curr_category']) }}">Print
+                                                Laporan Narasi</a>
+                                        @elseif($data['page'] == 'Laporan Kegiatan')
+                                            <a class="btn btn-realblue w-100 mb-2" target="_blank"
+                                                href="{{ url($url_program_generate . '/' . $item->id . '?category=' . $data['curr_category']) }}">Print
+                                                Laporan Program</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @php $no++; @endphp

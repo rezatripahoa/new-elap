@@ -14,6 +14,15 @@
             Tambah Program Kerja
         </p>
 
+        @if (Session::has('status'))
+            <div class="alert alert-success mt-3 text-center">
+                {{ Session::get('status') }}
+                @php
+                    Session::forget('status');
+                @endphp
+            </div>
+        @endif
+
         <div class="container my-2" style="min-height: 50vh">
             <form action="{{ url($url_base) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -57,7 +66,7 @@
 
                 <div class="form-group">
                     <label>Penanggung Jawab Program</label>
-                    <select class="form-control" name="pjp_id">
+                    <select class="js-basic-simple form-control" name="pjp_id">
                         <option selected>= Pilih PJP =</option>
                         @foreach ($data['list_department'] as $item)
                             <option value="{{ $item->id }}">{{ $item->department_name }}</option>
@@ -105,31 +114,9 @@
                     </div>
                 </div>
 
-
-
                 <div class="form-group">
                     <label>Frekuensi</label>
                     <input type="text" class="form-control" name="frekuensi">
-                </div>
-
-                <div class="form-group">
-                    <label>Jumlah Peserta</label>
-                    <input type="number" class="form-control" name="peserta">
-                </div>
-
-                <div class="form-group">
-                    <label>Evaluasi</label>
-                    <input type="text" class="form-control" name="evaluasi" placeholder="Masukkan Evaluasi">
-                </div>
-
-                <div class="form-group">
-                    <label>Tidak Lanjut</label>
-                    <input type="text" class="form-control" name="tindak_lanjut" placeholder="Masukkan Tindak Lanjut">
-                </div>
-
-                <div class="form-group">
-                    <label>Keterangan</label>
-                    <textarea class="form-control" name="keterangan" placeholder="Masukkan Keterangan"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -151,22 +138,6 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-6">
-                            <label>Realisasi Kuantitatif</label>
-                            <input type="text" class="form-control" name="realisasi_kuantitatif"
-                                placeholder="Masukkan Realisasi Kuantitatif">
-                        </div>
-
-                        <div class="col-6">
-                            <label>Realisasi Kualitatif</label>
-                            <input type="text" class="form-control" name="realisasi_kualitatif"
-                                placeholder="Masukkan Realisasi Kualitatif">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6">
                             <label>Rencana Penerimaan</label>
                             <input type="text" class="form-control currency-input" name="rencana_penerimaan">
                         </div>
@@ -174,34 +145,6 @@
                         <div class="col-6">
                             <label>Rencana Pengeluaran</label>
                             <input type="text" class="form-control currency-input" name="rencana_pengeluaran">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6">
-                            <label>Realisasi Penerimaan</label>
-                            <input type="text" class="form-control currency-input" name="realisasi_penerimaan">
-                        </div>
-
-                        <div class="col-6">
-                            <label>Realisasi Pengeluaran</label>
-                            <input type="text" class="form-control currency-input" name="realisasi_pengeluaran">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-6">
-                            <label>Selisih Penerimaan</label>
-                            <input type="text" class="form-control" name="selisih_penerimaan" readonly>
-                        </div>
-
-                        <div class="col-6">
-                            <label>Selisih Pengeluaran</label>
-                            <input type="text" class="form-control" name="selisih_pengeluaran" readonly>
                         </div>
                     </div>
                 </div>
@@ -246,6 +189,7 @@
                 Button: false
             });
             $('.js-basic-multiple').select2();
+            $('.js-basic-simple').select2();
         });
     </script>
 @endsection

@@ -48,8 +48,8 @@
                                     <td>{{ $list->center_status }}</td>
                                     <td>
                                         <button class="btn btn-success btn-sm mr-2 mb-2 w-100" data-toggle="modal"
-                                            data-target="#modalKeuangan_1_2022">Edit</button>
-                                        <form action="{{ url('admin/center', $list->id) }}" method="POST"
+                                            data-target="#editModal{{ $list->center_id }}">Edit</button>
+                                        <form action="{{ url('admin/center', $list->center_id) }}" method="POST"
                                             enctype=multipart/form-data>
                                             @csrf
                                             @method('DELETE')
@@ -86,7 +86,7 @@
                         @csrf
                         <div class="form-group">
                             <input class="form-control" type="text" name="center_name" value=""
-                                placeholder="Masukkan Nama Pusat">
+                                placeholder="Masukkan Nama Admin">
                         </div>
 
                         <div class="form-group">
@@ -121,29 +121,29 @@
 
     @foreach ($data['list'] as $list)
         <!-- modal editModal -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+        <div class="modal fade" id="editModal{{ $list->center_id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editModal{{ $list->center_id }}" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModal">Tambah {{ $data['title'] }}</h5>
+                        <h5 class="modal-title" id="editModalLable{{ $list->center_id }}">Tambah {{ $data['title'] }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        <form action="{{ url('admin/category') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('admin/center') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
-                                <input class="form-control" type="text" name="category_name" value=""
-                                    placeholder="Masukkan Nama Kategori">
+                                <input class="form-control" type="text" name="center_name"
+                                    placeholder="Masukkan Nama Admin" value="{{ $list->center_name }}">
                             </div>
 
                             <div class="form-group">
-                                <select name="category_status" class="form-control">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Tidak Aktif</option>
-                                </select>
+                                <input class="form-control" type="text" name="username" value="{{ $list->username }}"
+                                    placeholder="Masukkan Username">
                             </div>
 
                             <button type="submit" class="btn btn-realblue w-100">SIMPAN</button>

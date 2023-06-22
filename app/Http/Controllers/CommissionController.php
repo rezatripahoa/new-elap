@@ -46,6 +46,7 @@ class CommissionController extends Controller
         $value = new Commission();
         $value->name = $request->name;
         $value->code = $request->code;
+        $value->jenis = $request->jenis;
         $value->save();
 
         return redirect('admin/commission')->with('status', 'Data Berhasil di Simpan');
@@ -86,6 +87,7 @@ class CommissionController extends Controller
         $value = Commission::whereId($id)->first();
         $value->name = $request->name;
         $value->code = $request->code;
+        $value->jenis = $request->jenis;
         $value->save();
 
         return redirect('admin/commission')->with('status', 'Data Berhasil di Update');

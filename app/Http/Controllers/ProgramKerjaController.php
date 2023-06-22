@@ -26,6 +26,7 @@ class ProgramKerjaController extends Controller
     {
         //
         $auth = Auth::user();
+
         $data = [];
 
         if ($auth->role == 4) {
@@ -36,7 +37,18 @@ class ProgramKerjaController extends Controller
             $department = Department::where('user_id', $auth->id)->first();
         }
 
-        $program_kerja = ProgramKerja::with('year')->orderBy('id', 'desc')->get();
+        $year_query = "";
+        if ($request->get('year')) {
+            $year_query = YearCategory::where('year_name', $request->get('year'))->first();
+        }
+
+        $program_kerja = ProgramKerja::with('year')->orderBy('id', 'desc')
+            ->where('departement_id', $department->id)
+            ->when($year_query != "", function ($q) use ($year_query) {
+                $q->where('year_id', $year_query->id);
+            })
+            ->get();
+
         $year = YearCategory::orderBy('year_name', 'asc')->get();
 
         $data['list'] = $program_kerja;
@@ -46,6 +58,59 @@ class ProgramKerjaController extends Controller
 
 
         return view('user.program_kerja.index', ['data' => $data]);
+    }
+
+    public function program_kerja_acc(Request $request)
+    {
+        //
+        $auth = Auth::user();
+        $data = [];
+
+        if ($auth->role == 4) {
+            $head = Head::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } else {
+            $department = Department::where('user_id', $auth->id)->first();
+        }
+
+        $program_kerja = ProgramKerja::with('year')->orderBy('id', 'desc')
+            ->where('departement_id', $department->id)
+            ->where('acc', 1)->get();
+        $year = YearCategory::orderBy('year_name', 'asc')->get();
+
+        $data['list'] = $program_kerja;
+        $data['year'] = $year;
+        $data['curr_year'] = $request->year;
+        $data['department'] = $department;
+
+
+        return view('user.program_kerja.acc', ['data' => $data]);
+    }
+
+    public function program_kerja_acc_submit($id)
+    {
+        //
+        $auth = Auth::user();
+        $url_base = 'program_kerja';
+        if ($auth->role == 4) {
+            $url_base = 'head/' . $url_base . '_head';
+        } elseif ($auth->role == 3) {
+            $url_base = 'department/' . $url_base;
+        }
+
+        $value = ProgramKerja::whereId($id)->first();
+        if ($value->acc == 0) {
+            $value->acc = 1;
+        } else {
+            $value->acc = 0;
+        }
+        $value->save();
+
+        if ($value->acc == 1) {
+            return redirect($url_base)->with('status', 'Data Berhasil di ACC');
+        }
+        return redirect($url_base)->with('status', 'ACC Berhasil di Dibatalkan');
     }
 
     /**
@@ -68,8 +133,16 @@ class ProgramKerjaController extends Controller
         }
 
         $year = YearCategory::orderBy('year_name', 'asc')->get();
-        $list_department = Department::orderBy('department_name', 'asc')->get();
-        $commission = Commission::orderBy('name', 'asc')->get();
+        $list_department = Department::orderBy('department_name', 'asc')
+            ->when($department->jenis, function ($q) use ($department) {
+                $q->where('jenis', $department->jenis);
+            })
+            ->get();
+        $commission = Commission::orderBy('name', 'asc')
+            ->when($department->jenis, function ($q) use ($department) {
+                $q->where('jenis', $department->jenis);
+            })
+            ->get();
         $type = ProgramKerjaType::orderBy('name', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
 

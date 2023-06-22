@@ -40,7 +40,7 @@ Route::post('change_password_submit', [AuthController::class, 'changePasswordSub
 
 Route::group(['middleware' => 'role:1'], function () {
     Route::prefix('admin')->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'index']);
+        Route::get('dashboard', [ReportController::class, 'list_departement']);
         Route::resource('category', CategoryController::class);
         Route::resource('year', YearController::class);
         Route::resource('center', CenterController::class);
@@ -75,7 +75,7 @@ Route::group(['middleware' => 'role:1'], function () {
 
 Route::group(['middleware' => 'role:2'], function () {
     Route::prefix('report')->group(function () {
-        Route::get('dashboard', [FrontPusatController::class, 'index']);
+        Route::get('dashboard', [ReportController::class, 'list_departement']);
         // Route::get('list_report/{id}', [FrontPusatController::class, 'report']);
 
         Route::get('report_program_report', [ReportController::class, 'list_departement']);
@@ -92,46 +92,59 @@ Route::group(['middleware' => 'role:2'], function () {
 
 Route::group(['middleware' => 'role:3'], function () {
     Route::prefix('department')->group(function () {
-        Route::get('dashboard', [FrontUserController::class, 'index']);
+        Route::get('dashboard', [ProgramKerjaController::class, 'index']);
 
         Route::post('laporan_kegiatan', [FrontUserController::class, 'laporan_kegiatan_submit']);
         Route::post('laporan_keuangan', [FrontUserController::class, 'laporan_keuangan_submit']);
 
+        Route::get('program_kerja_acc', [ProgramKerjaController::class, "program_kerja_acc"]);
+        Route::get('program_kerja_acc/{id}', [ProgramKerjaController::class, "program_kerja_acc_submit"]);
         Route::resource('program_kerja', ProgramKerjaController::class);
         Route::resource('program_kerja_attachment', ProgramKerjaReportAttachmentController::class);
 
         Route::get('laporan_narasi', [ReportController::class, 'report_narasi']);
+        Route::get('laporan_kegiatan', [ReportController::class, 'report_kegiatan']);
         Route::get('laporan_narasi_generate/{id}', [ReportController::class, 'report_narasi_generate']);
         Route::get('laporan_program_generate/{id}', [ReportController::class, 'report_program_generate']);
 
         Route::get('laporan_gabungan', [ReportController::class, 'report_gabungan']);
         Route::get('laporan_gabungan_generate', [ReportController::class, 'report_gabungan_excel']);
         Route::get('laporan_triwulan_generate', [ReportController::class, 'report_triwulan_excel']);
+
+        Route::get('program_kerja_excel/{id}', [ReportController::class, "program_kerja_excel"]);
+        Route::get('program_kerja_pdf/{id}', [ReportController::class, "program_kerja_pdf"]);
     });
 });
 
 Route::group(['middleware' => 'role:4'], function () {
     Route::prefix('head')->group(function () {
-        Route::get('dashboard', [FrontHeadController::class, 'index']);
+        Route::get('dashboard', [ProgramKerjaController::class, 'index']);
 
+        Route::get('program_kerja_acc_head', [ProgramKerjaController::class, "program_kerja_acc"]);
+        Route::get('program_kerja_acc_head/{id}', [ProgramKerjaController::class, "program_kerja_acc_submit"]);
         Route::resource('program_kerja_head', ProgramKerjaController::class);
         Route::resource('program_kerja_attachment_head', ProgramKerjaReportAttachmentController::class);
 
         Route::get('laporan_narasi_head', [ReportController::class, 'report_narasi']);
+        Route::get('laporan_kegiatan_head', [ReportController::class, 'report_kegiatan']);
         Route::get('laporan_narasi_generate_head/{id}', [ReportController::class, 'report_narasi_generate']);
         Route::get('laporan_program_generate_head/{id}', [ReportController::class, 'report_program_generate']);
 
         Route::get('laporan_gabungan_head', [ReportController::class, 'report_gabungan']);
         Route::get('laporan_gabungan_generate_head', [ReportController::class, 'report_gabungan_excel']);
         Route::get('laporan_triwulan_generate_head', [ReportController::class, 'report_triwulan_excel']);
+
+        Route::get('program_kerja_excel_head/{id}', [ReportController::class, "program_kerja_excel"]);
+        Route::get('program_kerja_pdf_head/{id}', [ReportController::class, "program_kerja_pdf"]);
     });
 });
 
 Route::group(['middleware' => 'role:5'], function () {
     Route::prefix('kabid')->group(function () {
-        Route::get('dashboard', [FrontHeadController::class, 'index_kabid']);
+        Route::get('dashboard', [ReportController::class, 'index_kabid']);
 
         Route::get('laporan_narasi_kabid', [ReportController::class, 'report_narasi']);
+        Route::get('laporan_kegiatan_kabid', [ReportController::class, 'report_narasi']);
         Route::get('laporan_narasi_generate_kabid/{id}', [ReportController::class, 'report_narasi_generate']);
         Route::get('laporan_program_generate_kabid/{id}', [ReportController::class, 'report_program_generate']);
 

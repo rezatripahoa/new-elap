@@ -4,19 +4,23 @@
     @php
         $url_base = 'program_kerja';
         $url_lampiran = 'program_kerja_attachment';
+        $url_excel = 'program_kerja_excel';
+        $url_pdf = 'program_kerja_pdf';
         if (auth()->user()->role == 4) {
-            $url_base_acc = 'head/' . $url_base . '_acc_head';
             $url_base = 'head/' . $url_base . '_head';
             $url_lampiran = 'head/' . $url_lampiran . '_head';
+            $url_excel = 'head/' . $url_excel . '_head';
+            $url_pdf = 'head/' . $url_pdf . '_head';
         } elseif (auth()->user()->role == 3) {
-            $url_base_acc = 'department/' . $url_base . '_acc';
             $url_base = 'department/' . $url_base;
             $url_lampiran = 'department/' . $url_lampiran;
+            $url_excel = 'department/' . $url_excel;
+            $url_pdf = 'department/' . $url_pdf;
         }
     @endphp
     <main>
         <p class="text-center text-secondary font-weight-bold h2 p-3">
-            Rencana Program Kerja Anggaran
+            Program Kerja Anggaran
         </p>
 
         @if (Session::has('status'))
@@ -35,7 +39,6 @@
                         {{ $year->year_name }}</option>
                 @endforeach
             </select>
-            <a class="btn btn-realblue" href="{{ url($url_base . '/create') }}">Tambah Program Kerja</a>
         </div>
 
         <div class="container my-2" style="min-height: 50vh">
@@ -48,17 +51,12 @@
                                 <th>Nama Program</th>
                                 <th>Tahun</th>
                                 <th>Lampiran</th>
-                                <th>Status ACC</th>
+                                <th>Laporan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @if(count($data['list']) == 0)
-                                <tr>
-                                    <td colspan="6" align="center">TIDAK ADA DATA</td>
-                                </tr>
-                            @endif
                             @php $no=1; @endphp
                             @foreach ($data['list'] as $item)
                                 <tr>
@@ -69,12 +67,15 @@
                                         <a class="btn btn-realgreen w-100 mb-2"
                                             href="{{ url($url_lampiran . '/' . $item->id) }}">Lihat Lampiran</a>
                                     </td>
-                                    <td>{{ $item->acc == 1 ? 'Sudah ACC' : 'Belum ACC' }}</td>
+                                    <td>
+                                        <a class="btn btn-realgreen w-100 mb-2"
+                                            href="{{ url($url_excel . '/' . $item->id) }}">Download Excel</a>
+                                        <a class="btn btn-realred w-100 mb-2"
+                                            href="{{ url($url_pdf . '/' . $item->id) }}">Download PDF</a>
+                                    </td>
                                     <td>
                                         <a class="btn btn-realgreen w-100 mb-2"
                                             href="{{ url($url_base . '/' . $item->id) }}">Detail</a>
-                                        <a class="btn btn-realblue w-100 mb-2"
-                                            href="{{ url($url_base_acc . '/' . $item->id) }}">{{ $item->acc == 1 ? 'Batalkan ACC' : 'ACC' }}</a>
                                         <form action="{{ url($url_base, $item->id) }}" method="POST"
                                             enctype=multipart/form-data>
                                             @csrf
@@ -92,13 +93,4 @@
             </div>
         </div>
     </main>
-@endsection
-
-@section('footerjs')
-    <script>
-        function changeYear(e){
-            let year = e.value;
-            window.location.href="{{url($url_base)}}?year="+year
-        }
-    </script>
 @endsection

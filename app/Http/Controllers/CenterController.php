@@ -21,7 +21,7 @@ class CenterController extends Controller
             ->select('users.*', 'centers.*', 'centers.id as center_id')->orderBy('centers.id', 'desc')->get();
 
         $data = [];
-        $data['title'] = 'Pusat';
+        $data['title'] = 'Admin';
         $data['list'] = $center;
 
         return view('admin.center.list', ['data' => $data]);
@@ -94,6 +94,20 @@ class CenterController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $value = Center::whereId($id)->first();
+        $value->department_name = $request->department_name;
+        $value->department_status = $request->department_status;
+        $value->save();
+
+        $user = User::whereId($value->user_id)->first();
+        $user->email = $request->username . '@gpib.com';
+        $user->username = $request->username;
+        if ($request->password != "") {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return redirect('admin/center')->with('status', 'Data Berhasil di Simpan');
     }
 
     /**

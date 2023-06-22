@@ -32,6 +32,13 @@
                                             <input type="text" class="form-control" name="name[]"
                                                 placeholder="Masukkan Nama File" value="{{ $attachment->name }}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Kategori</label>
+                                            <select name="category" class="form-control" required>
+                                                <option value="1">Pengeluaran</option>
+                                                <option value="2">Pemasukan</option>
+                                            </select>
+                                        </div>
 
                                         <div class="form-group">
                                             <label>Deskripsi File</label>
@@ -64,6 +71,14 @@
                                     <label>Nama File</label>
                                     <input type="text" class="form-control" name="name[]"
                                         placeholder="Masukkan Nama File" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Kategori</label>
+                                    <select name="category" class="form-control" required>
+                                        <option value="1">Pengeluaran</option>
+                                        <option value="2">Pemasukan</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -134,10 +149,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Kategori</label>
+                            <select name="category" class="form-control" required>
+                                <option value="1">Pengeluaran</option>
+                                <option value="2">Pemasukan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>Deskripsi File</label>
                             <input type="text" class="form-control" name="description[]"
                                 placeholder="Masukkan Deskripsi File" required>
                         </div>
+
+                        
 
                         <div class="text-center">
                             <img style="width: 150px;" id="img-view${nextIndex}" src="" alt="image">

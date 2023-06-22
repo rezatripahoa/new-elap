@@ -21,7 +21,7 @@
         <div class="p-3 h6 font-weight-bold">
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('admin/commission') }}">Data Komisi</a>
+                <a class="text-dark ml-3" href="{{ url('admin/commission') }}">Data Penopang Program</a>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
         <div class="p-3 h6 font-weight-bold">
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('admin/center') }}">Data Pusat</a>
+                <a class="text-dark ml-3" href="{{ url('admin/center') }}">Data Admin</a>
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
         <div class="p-3 h6 font-weight-bold">
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('admin/department') }}">Data Department</a>
+                <a class="text-dark ml-3" href="{{ url('admin/department') }}">Data Pusat, Mupel, Jemaat</a>
             </div>
         </div>
     </div>
@@ -57,19 +57,19 @@
         <div class="p-3 h6 font-weight-bold">
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('admin/head') }}">Data Ketua Department</a>
+                <a class="text-dark ml-3" href="{{ url('admin/head') }}">Data Ketua, Kepala</a>
             </div>
         </div>
     </div>
 
-    <div class="bg-white rounded d-none d-md-block">
+    {{-- <div class="bg-white rounded d-none d-md-block">
         <div class="p-3 h6 font-weight-bold">
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('admin/ketua_bidang') }}">Data Ketua Bidang</a>
+                <a class="text-dark ml-3" href="{{ url('admin/ketua_bidang') }}">Data User</a>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="bg-white rounded d-none d-md-block">
         <div class="p-3 h6 font-weight-bold">

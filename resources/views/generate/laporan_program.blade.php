@@ -26,13 +26,8 @@
         margin-bottom: 5px;
     }
 
-    table {
+    .mt-20 {
         margin-top: 20px;
-        width: 100%;
-    }
-
-    table tr :nth-child(1) {
-        font-weight: bold;
     }
 
     .page_break {
@@ -42,104 +37,97 @@
     .img-width {
         width: 200px;
     }
+
+    .header {
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        font-weight: lighter;
+    }
 </style>
 
 <body>
-    <h3 class="mb-5 p-0">DEPARTEMEN/PELKAT : {{ strtoupper($department->department_name) }}</h3>
-    <h3 class="mb-5 p-0">LAPORAN PELAKSANAAN PROGRAM KERJA</h3>
-    <h3 class="mb-5 p-0">TAHUN PROGRAM {{ $list->year->year_name }}</h3>
-    <h3 class="mb-5 p-0">{{ strtoupper($list->category[0]->category->category_name) }}
-        ({{ $list->category[0]->category->description }})</h3>
+    <center class="header">
+        <h3 class="mb-5 p-0">LAPORAN KEGIATAN DAN KEUANGAN PROGRAM KERJA</h3>
+        <h3 class="mb-5 p-0">{{ strtoupper($list->category[0]->category->category_name) }}
+            ({{ $list->category[0]->category->description }})</h3>
+        <h3 class="mb-5 p-0">TAHUN PROGRAM {{ $list->year->year_name }}</h3>
+        <h3 class="mb-5 p-0">{{ strtoupper($department->department_name) }}</h3>
+    </center>
 
-    <table border="1" class="mt-20">
-        <tr>
-            <td>NAMA</td>
-            <td>:</td>
-            <td>{{ $list->name }}</td>
-        </tr>
-        <tr>
-            <td>SIFAT</td>
-            <td>:</td>
-            <td>{{ $list->type->name }}</td>
-        </tr>
-        <tr>
-            <td>TUJUAN</td>
-            <td>:</td>
-            <td>{{ $list->tujuan }}</td>
-        </tr>
-        <tr>
-            <td>JADWAL</td>
-            <td>:</td>
-            <td>{{ $list->waktu }}</td>
-        </tr>
-        <tr>
-            <td>LOKASI</td>
-            <td>:</td>
-            <td>{{ $list->lokasi }}</td>
-        </tr>
-        <tr>
-            <td>FREKUENSI</td>
-            <td>:</td>
-            <td>{{ $list->frekuensi }}</td>
-        </tr>
+    <div>
+        <h3>NAMA PROGRAM</h3>
+        <h4>{{ $list->name }}</h4>
+    </div>
 
-        <tr>
-            <td>RENCANA</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - PENERIMAAN</td>
-            <td>:</td>
-            <td>{{ $list->rencana_penerimaan }}</td>
-        </tr>
-        <tr>
-            <td> - PENGELUARAN</td>
-            <td>:</td>
-            <td>{{ $list->rencana_pengeluaran }}</td>
-        </tr>
-        <tr>
-            <td>REALISASI</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - PENERIMAAN</td>
-            <td>:</td>
-            <td>{{ $list->realisasi_penerimaan }}</td>
-        </tr>
-        <tr>
-            <td> - PENGELUARAN</td>
-            <td>:</td>
-            <td>{{ $list->realisasi_pengeluaran }}</td>
-        </tr>
-        <tr>
-            <td>Total</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td> - PENERIMAAN</td>
-            <td>:</td>
-            <td>{{ $list->rencana_penerimaan - $list->realisasi_penerimaan }}</td>
-        </tr>
-        <tr>
-            <td> - PENGELUARAN</td>
-            <td>:</td>
-            <td>{{ $list->realisasi_pengeluaran - $list->rencana_pengeluaran }}</td>
-        </tr>
-        <tr>
-            <td>KETERANGAN</td>
-            <td>:</td>
-            <td>{{ $list->keterangan }}</td>
-        </tr>
-    </table>
+    <div>
+        <h3>SIFAT PROGRAM</h3>
+        <h4>{{ $list->type->name }}</h4>
+    </div>
+
+    <div>
+        <h3>TUJUAN PROGRAM</h3>
+        <h4>{{ $list->tujuan }}</h4>
+    </div>
+
+    <div>
+        <h3>JADWAL KEGIATAN</h3>
+        <h4>{{ \Carbon\Carbon::parse($list->jadwal_start)->isoFormat('dddd, D MMMM Y') }}</h4>
+    </div>
+
+    <div>
+        <h3>LOKASI KEGIATAN</h3>
+        <h4>{{ $list->lokasi }}</h4>
+    </div>
+
+    <div>
+        <h3>FREKUENSI KEGIATAN</h3>
+        <h4>{{ $list->frekuensi }}</h4>
+    </div>
+
+    <div>
+        <h3>RENCANA ANGGARAN BIAYA</h3>
+        <div>
+            <h3>A. PENERIMAAN</h3>
+            <h4>IDR {{ number_format($list->rencana_penerimaan, 2, ',', '.') }}</h4>
+            <h3>B. PENGELUARAN</h3>
+            <h4>IDR {{ number_format($list->rencana_pengeluaran, 2, ',', '.') }}</h4>
+        </div>
+    </div>
+    <div>
+        <h3>REALISASI ANGGARAN BIAYA</h3>
+        <div>
+            <h3>A. PENERIMAAN</h3>
+            <h4>IDR {{ number_format($list->realisasi_penerimaan, 2, ',', '.') }}</h4>
+            <h3>B. PENGELUARAN</h3>
+            <h4>IDR {{ number_format($list->realisasi_pengeluaran, 2, ',', '.') }}</h4>
+        </div>
+    </div>
+    <div>
+        <h3>KETERANGAN</h3>
+        <h4>{{ $list->keterangan }}</h4>
+    </div>
+
+    <div class="page_break"></div>
+    <h3 class="mb-5">(LAMPIRAN BUKTI PENERIMAAN & PENGELUARAN)</h3>
+    <h3 class="mb-5">BUKTI PENERIMAAN :</h3>
 
     @foreach ($list->attachment as $key => $attachment)
-        <div class="page_break"></div>
-        <h3>{{ $key+1 }}. {{ $attachment->name }}</h3>
-        <img class="img-width" src="{{ url('assets/images/attachments/' . $list->id . '/' . $attachment->file) }}"
-            alt="image">
+        @if ($attachment->category == 2)
+            <h3>{{ $key + 1 }}. {{ $attachment->name }}</h3>
+            <img class="img-width" src="{{ url('assets/images/attachments/' . $list->id . '/' . $attachment->file) }}"
+                alt="image">
+        @endif
+    @endforeach
+
+    <h3 class="mb-5 mt-20">BUKTI PENGELUARAN :</h3>
+    @foreach ($list->attachment as $keys => $attachment)
+        @if ($attachment->category == 1)
+            <h3>{{ $keys + 1 }}. {{ $attachment->name }}</h3>
+            <img class="img-width" src="{{ url('assets/images/attachments/' . $list->id . '/' . $attachment->file) }}"
+                alt="image">
+        @endif
     @endforeach
 </body>
 

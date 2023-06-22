@@ -21,7 +21,7 @@ class DepartmentController extends Controller
             ->select('users.*', 'departments.*', 'departments.id as department_id')->orderBy('departments.id', 'desc')->get();
 
         $data = [];
-        $data['title'] = 'Department';
+        $data['title'] = 'Pusat, Mupel, dan Jemaat';
         $data['list'] = $department;
 
         return view('admin.department.list', ['data' => $data]);
@@ -57,6 +57,7 @@ class DepartmentController extends Controller
         $value->user_id = $user->id;
         $value->department_name = $request->department_name;
         $value->department_status = $request->department_status;
+        $value->jenis = $request->jenis;
         $value->save();
 
         return redirect('admin/department')->with('status', 'Data Berhasil di Simpan');
@@ -94,6 +95,21 @@ class DepartmentController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $value = Department::whereId($id)->first();
+        $value->department_name = $request->department_name;
+        $value->department_status = $request->department_status;
+        $value->jenis = $request->jenis;
+        $value->save();
+
+        $user = User::whereId($value->user_id)->first();
+        $user->email = $request->username . '@gpib.com';
+        $user->username = $request->username;
+        if ($request->password != "") {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return redirect('admin/department')->with('status', 'Data Berhasil di Simpan');
     }
 
     /**

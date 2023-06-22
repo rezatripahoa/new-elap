@@ -8,13 +8,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ReportTriwulan implements FromView, ShouldAutoSize, WithEvents
+class ReportExcel implements FromView, ShouldAutoSize, WithEvents
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     protected $data;
-    
+
     function __construct($data)
     {
         $this->data = $data;
@@ -22,7 +22,7 @@ class ReportTriwulan implements FromView, ShouldAutoSize, WithEvents
 
     public function view(): View
     {
-        return view('generate.laporan_triwulan_excel', $this->data);
+        return view('generate.laporan_kegiatan_excel', $this->data);
     }
 
     public function registerEvents(): array

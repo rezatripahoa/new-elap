@@ -61,6 +61,7 @@ class ProgramKerjaReportAttachmentController extends Controller
                 $proker_id = $request->program_kerja;
                 $names = $request->name;
                 $description = $request->description;
+                $category = $request->category;
 
                 $program_kerja = ProgramKerjaReportAttachment::where('program_kerja_id', $proker_id)->get();
                 foreach ($program_kerja as $item) {
@@ -89,6 +90,7 @@ class ProgramKerjaReportAttachmentController extends Controller
                     $db = new ProgramKerjaReportAttachment();
                     $db->program_kerja_id = $proker_id;
                     $db->name = $name;
+                    $db->category = $category;
                     $db->description = $description[$key];
                     $db->file = $imagename;
                     $db->save();
