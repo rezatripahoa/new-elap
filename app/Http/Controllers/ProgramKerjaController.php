@@ -51,6 +51,7 @@ class ProgramKerjaController extends Controller
 
         $year = YearCategory::orderBy('year_name', 'asc')->get();
 
+        $data['page'] = "RPKA";
         $data['list'] = $program_kerja;
         $data['year'] = $year;
         $data['curr_year'] = $request->year;
@@ -79,6 +80,7 @@ class ProgramKerjaController extends Controller
             ->where('acc', 1)->get();
         $year = YearCategory::orderBy('year_name', 'asc')->get();
 
+        $data['page'] = "PKA";
         $data['list'] = $program_kerja;
         $data['year'] = $year;
         $data['curr_year'] = $request->year;

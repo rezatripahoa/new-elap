@@ -49,7 +49,7 @@
     <div class="bg-white rounded d-none d-md-block">
         <div class="p-3 h6 font-weight-bold">
             <p class="font-weight-bold">Master</p>
-            <div class="mb-2">
+            <div class="mb-2 @if($data['page'] && $data['page'] == "RPKA") menu-active @endif" >
                 <i class="fa fa-book" style="font-size:20px;"></i>
                 <a class="text-dark ml-3" href="{{ url('head/program_kerja_head?year=' . $year) }}">RPKA</a>
             </div>

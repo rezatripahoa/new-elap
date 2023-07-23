@@ -393,6 +393,7 @@ class ReportController extends Controller
         $year = YearCategory::orderBy('year_name', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
 
+        $data['page'] = "Laporan Gabungan";
         $data['year'] = $year;
         $data['category'] = $category;
         $data['department'] = $department;

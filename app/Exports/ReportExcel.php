@@ -29,8 +29,6 @@ class ReportExcel implements FromView, ShouldAutoSize, WithEvents
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-
-                // Apply array of styles to B2:G8 cell range
                 $styleArray = [
                     'borders' => [
                         'allBorders' => [

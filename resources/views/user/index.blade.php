@@ -31,6 +31,14 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     @yield('stylecss')
+
+    <style>
+        .menu-active {
+            border-bottom: 1px solid #172e55;
+            border-right: 1px solid #172e55;
+            padding: 5px;
+        }
+    </style>
 </head>
 
 <body style="overflow-x:hidden;">
@@ -139,7 +147,8 @@
                                 <div class="p-3 h6 font-weight-bold">
                                     <div class="">
                                         <i class="fa fa-book" style="font-size:20px;"></i>
-                                        <a class="text-dark ml-3" href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Laporan
+                                        <a class="text-dark ml-3"
+                                            href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Laporan
                                             Program Kerja (ACC)</a>
                                     </div>
                                 </div>
@@ -149,7 +158,8 @@
                                 <div class="p-3 h6 font-weight-bold">
                                     <div class="">
                                         <i class="fa fa-book" style="font-size:20px;"></i>
-                                        <a class="text-dark ml-3" href="{{ url('head/laporan_narasi_head') }}">Laporan
+                                        <a class="text-dark ml-3"
+                                            href="{{ url('head/laporan_narasi_head') }}">Laporan
                                             Program Kerja</a>
                                     </div>
                                 </div>
