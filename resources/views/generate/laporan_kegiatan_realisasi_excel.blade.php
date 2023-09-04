@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <td colspan="11" align="center" style="font-size: 14px; font-weight: bold;">
-            LAPORAN PROGRAM KERJA ANGGARAN TAHUN PROGRAM {{ $year->year_name }}
+            LAPORAN REALISASI ANGGARAN TAHUN PROGRAM {{ $year->year_name }}
         </td>
     </tr>
     <tr></tr>

@@ -40,7 +40,7 @@
     <div class="container">
         <center>
             <h2 class="title">{{ strtoupper($department->department_name) }}</h2>
-            <h2 class="title">LAPORAN PROGRAM KERJA ANGGARAN TAHUN PROGRAM {{ $year->year_name }}</h2>
+            <h2 class="title">LAPORAN REALISASI ANGGARAN TAHUN PROGRAM {{ $year->year_name }}</h2>
         </center>
 
         @foreach ($list as $item)

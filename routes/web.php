@@ -130,6 +130,9 @@ Route::group(['middleware' => 'role:3'], function () {
         Route::get('program_kerja_excel/{id}', [ReportController::class, "program_kerja_excel"]);
         Route::get('program_kerja_pdf/{id}', [ReportController::class, "program_kerja_pdf"]);
 
+        Route::get('program_kerja_realisasi_excel/{id}', [ReportController::class, "program_kerja_realisasi_excel"]);
+        Route::get('program_kerja_realisasi_pdf/{id}', [ReportController::class, "program_kerja_realisasi_pdf"]);
+
         Route::post('program-kerja-upload', [ProgramKerjaController::class, "importFromExcel"]);
 
     });
