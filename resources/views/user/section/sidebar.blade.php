@@ -22,9 +22,9 @@
     <div class="bg-white rounded d-none d-md-block">
         <div class="p-3 h6 font-weight-bold">
             <p class="font-weight-bold">Realisasi</p>
-            <div class="">
+            <div class="@if(isset($data['page']) && $data['page'] == "Realisasi PKA") menu-active @endif">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="ml-3" href="{{ url('department/program_kerja_acc?year=' . $year) }}">Program
+                <a class="ml-3" href="{{ url('department/program_kerja_realisasi?year=' . $year) }}">Program
                     Kerja</a>
             </div>
         </div>

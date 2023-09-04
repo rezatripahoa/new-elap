@@ -20,7 +20,7 @@
             <p class="font-weight-bold">Realisasi</p>
             <div class="">
                 <i class="fa fa-book" style="font-size:20px;"></i>
-                <a class="text-dark ml-3" href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Program
+                <a class="text-dark ml-3" href="{{ url('head/program_kerja_realisasi_head?year=' . $year) }}">Program
                     Kerja</a>
             </div>
         </div>

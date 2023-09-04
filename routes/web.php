@@ -108,6 +108,9 @@ Route::group(['middleware' => 'role:3'], function () {
 
         Route::get('program_kerja_acc', [ProgramKerjaController::class, "program_kerja_acc"]);
         Route::get('program_kerja_acc/{id}', [ProgramKerjaController::class, "program_kerja_acc_submit"]);
+        Route::get('program_kerja_realisasi', [ProgramKerjaController::class, "program_kerja_realisasi"]);
+        Route::get('program_kerja_realisasi/{id}', [ProgramKerjaController::class, "show_realisasi"]);
+        Route::put('program_kerja_realisasi/{id}', [ProgramKerjaController::class, "program_kerja_realisasi_update"]);
         Route::resource('program_kerja', ProgramKerjaController::class);
         Route::resource('program_kerja_attachment', ProgramKerjaReportAttachmentController::class);
 
@@ -138,6 +141,7 @@ Route::group(['middleware' => 'role:4'], function () {
 
         Route::get('program_kerja_acc_head', [ProgramKerjaController::class, "program_kerja_acc"]);
         Route::get('program_kerja_acc_head/{id}', [ProgramKerjaController::class, "program_kerja_acc_submit"]);
+        Route::get('program_kerja_realisasi_head', [ProgramKerjaController::class, "program_kerja_realisasi"]);
         Route::resource('program_kerja_head', ProgramKerjaController::class);
         Route::resource('program_kerja_attachment_head', ProgramKerjaReportAttachmentController::class);
 
