@@ -1,4 +1,4 @@
-@extends('user/index')
+@extends('admin/index')
 
 @section('content')
     @php

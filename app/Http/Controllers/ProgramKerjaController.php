@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ProgramKerjaImport;
 use App\Models\Category;
 use App\Models\Commission;
 use App\Models\Department;
@@ -14,6 +15,7 @@ use App\Models\YearCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProgramKerjaController extends Controller
 {
@@ -90,6 +92,27 @@ class ProgramKerjaController extends Controller
         return view('user.program_kerja.acc', ['data' => $data]);
     }
 
+    public function program_kerja_acc_admin($id, Request $request)
+    {
+        //
+        $data = [];
+
+        $department = Department::whereId($id)->first();
+        $program_kerja = ProgramKerja::with('year')->orderBy('id', 'desc')
+            ->where('departement_id', $department->id)
+            ->where('acc', 1)->get();
+        $year = YearCategory::orderBy('year_name', 'asc')->get();
+
+        $data['page'] = "PKA";
+        $data['list'] = $program_kerja;
+        $data['year'] = $year;
+        $data['curr_year'] = $request->year;
+        $data['department'] = $department;
+
+
+        return view('admin.program_kerja.acc', ['data' => $data]);
+    }
+
     public function program_kerja_acc_submit($id)
     {
         //
@@ -148,6 +171,7 @@ class ProgramKerjaController extends Controller
         $type = ProgramKerjaType::orderBy('name', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
 
+        $data['page'] = "RPKA";
         $data['year'] = $year;
         $data['department'] = $department;
         $data['list_department'] = $list_department;
@@ -207,6 +231,7 @@ class ProgramKerjaController extends Controller
             $value->peserta = $request->peserta;
             // $value->waktu = $request->waktu;
             $value->waktu = "";
+            $value->jadwal_end = $request->jadwal_end;
             $value->jadwal_start = $request->jadwal_start;
             $value->tindak_lanjut = $request->tindak_lanjut;
             $value->keterangan = $request->keterangan;
@@ -235,7 +260,7 @@ class ProgramKerjaController extends Controller
             return redirect($url_base)->with('status', 'Data Berhasil di Simpan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // dd($th);
+            dd($th);
             return redirect($url_base)->with('status', 'Data Gagal di Simpan');
         }
     }
@@ -274,7 +299,7 @@ class ProgramKerjaController extends Controller
 
         $pp_program = [];
         foreach ($list->pp as $item) {
-            array_push($pp_program, $item->comission_id);
+            array_push($pp_program, $item->commission_id);
         }
 
         $data['year'] = $year;
@@ -283,12 +308,16 @@ class ProgramKerjaController extends Controller
         $data['commission'] = $commission;
         $data['category'] = $category;
         $data['category_program'] = $category_program;
-        $data['pp_program'] = $category_program;
+        $data['pp_program'] = $pp_program;
         $data['type'] = $type;
         $data['list'] = $list;
         $data['program_kerja_id'] = $id;
 
-        return view('user.program_kerja.detail', ['data' => $data]);
+        if ($auth->role != 2) {
+            return view('user.program_kerja.detail', ['data' => $data]);
+        } else {
+            return view('admin.program_kerja.detail', ['data' => $data]);
+        }
     }
 
     /**
@@ -353,6 +382,7 @@ class ProgramKerjaController extends Controller
             $value->peserta = $request->peserta;
             // $value->waktu = $request->waktu;
             $value->waktu = "";
+            $value->jadwal_end = $request->jadwal_end;
             $value->jadwal_start = $request->jadwal_start;
             $value->tindak_lanjut = $request->tindak_lanjut;
             $value->keterangan = $request->keterangan;
@@ -361,6 +391,10 @@ class ProgramKerjaController extends Controller
 
             $category = $request->category;
             ProgramKerjaCategory::where('program_kerja_id', $value->id)->delete();
+
+            if (!$category) {
+                return redirect($url_base)->with('Kategori Harus Dipilih');
+            }
             foreach ($category as $item) {
                 $pkc = new ProgramKerjaCategory();
                 $pkc->program_kerja_id = $value->id;
@@ -382,7 +416,7 @@ class ProgramKerjaController extends Controller
             return redirect($url_base)->with('status', 'Data Berhasil Disimpan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // dd($th);
+            dd($th);
             return redirect($url_base)->with('status', 'Data Gagal Disimpan');
         }
     }
@@ -408,7 +442,7 @@ class ProgramKerjaController extends Controller
             DB::beginTransaction();
             ProgramKerjaCategory::where('program_kerja_id', $id)->delete();
             ProgramKerjaCommission::where('program_kerja_id', $id)->delete();
-            ProgramKerja::whereId($id)->first();
+            ProgramKerja::whereId($id)->delete();
             DB::commit();
             return redirect($url_base)->with('status', 'Data Berhasil Dihapus');
         } catch (\Throwable $th) {
@@ -416,5 +450,28 @@ class ProgramKerjaController extends Controller
             DB::rollBack();
             return redirect($url_base)->with('status', 'Data Gagal Dihapus');
         }
+    }
+
+    public function importFromExcel(Request $request)
+    {
+        $auth = Auth::user();
+        $department = Department::where('user_id', $auth->id)->first();
+
+        $file = $request->file('uploaded_file');
+
+        // membuat nama file unik
+        $nama_file = rand() . $file->getClientOriginalName();
+
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('assets/uploads', $nama_file);
+        // import data
+        $import = new ProgramKerjaImport($department);
+        Excel::import($import, public_path('assets/uploads/' . $nama_file));
+
+        if ($import->getError() != "") {
+            return redirect('department/dashboard')->with('status', $import->getError());
+        }
+
+        return redirect('department/dashboard')->with('status', 'Data Berhasil Ditambahkan');
     }
 }

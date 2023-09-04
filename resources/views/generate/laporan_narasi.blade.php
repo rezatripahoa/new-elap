@@ -26,12 +26,37 @@
         margin-bottom: 5px;
     }
 
-    .header{
+    .header {
         margin-bottom: 20px;
     }
 
-    h4{
+    h4 {
         font-weight: lighter;
+    }
+
+    div {
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        border-left: 1px solid black;
+        border-bottom: 0.5px solid black;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    div h3 {
+        border-bottom: 1px solid black;
+        margin: 0px;
+    }
+
+    div h5 {
+        font-size: 16px;
+        border-bottom: 1px solid black;
+        font-weight: normal;
+        margin: 0px;
+    }
+
+    .realisasi {
+        padding-left: 20px;
     }
 </style>
 
@@ -70,30 +95,24 @@
     </div>
     <div>
         <h3>RUANG LINGKUP</h3>
-        <div>
-            <h3>A. INSCOPE</h3>
-            <h4>{{ $list->inscope }}</h4>
-            <h3>B. OUTSCOPE</h3>
-            <h4>{{ $list->outscope }}</h4>
-        </div>
+        <h3 class="realisasi">A. INSCOPE</h3>
+        <h5 class="realisasi">{{ $list->inscope ?? '-' }}</h5>
+        <h3 class="realisasi">B. OUTSCOPE</h3>
+        <h4 class="realisasi">{{ $list->outscope ?? '-' }}</h4>
     </div>
     <div>
         <h3>INDIKATOR KEBERHASILAN</h3>
-        <div>
-            <h3>A. KUANTITATIF</h3>
-            <h4>{{ $list->indikator_kuantitatif }}</h4>
-            <h3>B. KUALITATIF</h3>
-            <h4>{{ $list->indikator_kualitatif }}</h4>
-        </div>
+        <h3 class="realisasi">A. KUANTITATIF</h3>
+        <h5 class="realisasi">{{ $list->indikator_kuantitatif ?? '-' }}</h5>
+        <h3 class="realisasi">B. KUALITATIF</h3>
+        <h4 class="realisasi">{{ $list->indikator_kualitatif ?? '-' }}</h4>
     </div>
     <div>
         <h3>REALISASI PROGRAM</h3>
-        <div>
-            <h3>A. KUANTITATIF</h3>
-            <h4>{{ $list->realisasi_kuantitatif }}</h4>
-            <h3>B. KUALITATIF</h3>
-            <h4>{{ $list->realisasi_kualitatif }}</h4>
-        </div>
+        <h3 class="realisasi">A. KUANTITATIF</h3>
+        <h5 class="realisasi">{{ $list->realisasi_kuantitatif ?? '-' }}</h5>
+        <h3 class="realisasi">B. KUALITATIF</h3>
+        <h4 class="realisasi">{{ $list->realisasi_kualitatif ?? '-' }}</h4>
     </div>
     <div>
         <h3>EVALUASI</h3>

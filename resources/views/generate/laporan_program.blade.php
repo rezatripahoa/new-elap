@@ -45,6 +45,31 @@
     h4 {
         font-weight: lighter;
     }
+
+    div {
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        border-left: 1px solid black;
+        border-bottom: 0.5px solid black;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    div h3 {
+        border-bottom: 1px solid black;
+        margin: 0px;
+    }
+
+    div h5 {
+        font-size: 16px;
+        border-bottom: 1px solid black;
+        font-weight: normal;
+        margin: 0px;
+    }
+
+    .realisasi {
+        padding-left: 20px;
+    }
 </style>
 
 <body>
@@ -88,21 +113,17 @@
 
     <div>
         <h3>RENCANA ANGGARAN BIAYA</h3>
-        <div>
-            <h3>A. PENERIMAAN</h3>
-            <h4>IDR {{ number_format($list->rencana_penerimaan, 2, ',', '.') }}</h4>
-            <h3>B. PENGELUARAN</h3>
-            <h4>IDR {{ number_format($list->rencana_pengeluaran, 2, ',', '.') }}</h4>
-        </div>
+        <h3 class="realisasi">A. PENERIMAAN</h3>
+        <h5 class="realisasi">IDR {{ number_format($list->rencana_penerimaan, 2, ',', '.') }}</h5>
+        <h3 class="realisasi">B. PENGELUARAN</h3>
+        <h4 class="realisasi">IDR {{ number_format($list->rencana_pengeluaran, 2, ',', '.') }}</h4>
     </div>
     <div>
         <h3>REALISASI ANGGARAN BIAYA</h3>
-        <div>
-            <h3>A. PENERIMAAN</h3>
-            <h4>IDR {{ number_format($list->realisasi_penerimaan, 2, ',', '.') }}</h4>
-            <h3>B. PENGELUARAN</h3>
-            <h4>IDR {{ number_format($list->realisasi_pengeluaran, 2, ',', '.') }}</h4>
-        </div>
+        <h3 class="realisasi">A. PENERIMAAN</h3>
+        <h5 class="realisasi">IDR {{ number_format($list->realisasi_penerimaan, 2, ',', '.') }}</h5>
+        <h3 class="realisasi">B. PENGELUARAN</h3>
+        <h4 class="realisasi">IDR {{ number_format($list->realisasi_pengeluaran, 2, ',', '.') }}</h4>
     </div>
     <div>
         <h3>KETERANGAN</h3>

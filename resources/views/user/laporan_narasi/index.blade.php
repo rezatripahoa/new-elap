@@ -25,7 +25,7 @@
     @endphp
     <main>
         <p class="text-center text-secondary font-weight-bold h2 p-3">
-            Laporan Realisasi Program Kerja
+            {{$data['page']}}
         </p>
 
         <div class="row px-4">

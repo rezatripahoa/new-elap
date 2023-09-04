@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <td colspan="11" align="center" style="font-size: 14px; font-weight: bold;">
-            LAPORAN REALISASI ANGGARAN TAHUN PROGRAM {{ $year->year_name }}
+            LAPORAN RENCANA ANGGARAN TAHUN PROGRAM {{ $year->year_name }}
         </td>
     </tr>
     <tr></tr>
@@ -30,12 +30,9 @@
                 <th rowspan="2" valign="middle" align="center" style="font-weight: bold;">LOKASI</th>
                 <th rowspan="2" valign="middle" align="center" style="font-weight: bold;">FREKUENSI</th>
                 <th colspan="2" valign="middle" align="center" style="font-weight: bold;">RENCANA</th>
-                <th colspan="2" valign="middle" align="center" style="font-weight: bold;">REALISASI</th>
                 <th rowspan="2" valign="middle" align="center" style="font-weight: bold;">KETERANGAN</th>
             </tr>
             <tr>
-                <th valign="middle" align="center" style="font-weight: bold;">PENERIMAAN</th>
-                <th valign="middle" align="center" style="font-weight: bold;">PENGELUARAN</th>
                 <th valign="middle" align="center" style="font-weight: bold;">PENERIMAAN</th>
                 <th valign="middle" align="center" style="font-weight: bold;">PENGELUARAN</th>
             </tr>
@@ -44,14 +41,12 @@
             @php
                 $total_rencana_penerimaan = 0;
                 $total_rencana_pengeluaran = 0;
-                $total_realisasi_penerimaan = 0;
-                $total_realisasi_pengeluaran = 0;
             @endphp
             @php $no=1; @endphp
             @php
                 $count_rutin = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'RUTIN';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'RUTIN';
                     }),
                 );
             @endphp
@@ -68,7 +63,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'RUTIN')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'RUTIN')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -78,16 +73,12 @@
                         <td>{{ $val->program_kerja->frekuensi }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_penerimaan }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_pengeluaran }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_penerimaan }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_pengeluaran }}</td>
                         <td>{{ $val->program_kerja->keterangan }}</td>
                     </tr>
                     @php $no++; @endphp
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach
@@ -96,7 +87,7 @@
             @php
                 $count_non_rutin = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'NON RUTIN';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'NON RUTIN';
                     }),
                 );
             @endphp
@@ -113,7 +104,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'NON RUTIN')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'NON RUTIN')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -123,16 +114,12 @@
                         <td>{{ $val->program_kerja->frekuensi }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_penerimaan }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_pengeluaran }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_penerimaan }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_pengeluaran }}</td>
                         <td>{{ $val->program_kerja->keterangan }}</td>
                     </tr>
                     @php $no++; @endphp
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach
@@ -141,7 +128,7 @@
             @php
                 $count_proyek = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'PROYEK';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'PROYEK';
                     }),
                 );
             @endphp
@@ -158,7 +145,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'PROYEK')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'PROYEK')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -168,16 +155,12 @@
                         <td>{{ $val->program_kerja->frekuensi }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_penerimaan }}</td>
                         <td data-format="Rp#,##0_-">{{ $val->program_kerja->rencana_pengeluaran }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_penerimaan }}</td>
-                        <td data-format="Rp#,##0_-">{{ $val->program_kerja->realisasi_pengeluaran }}</td>
                         <td>{{ $val->program_kerja->keterangan }}</td>
                     </tr>
                     @php $no++; @endphp
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach
@@ -186,13 +169,11 @@
                     TOTAL {{ strtoupper($item->category_name) }}
                 </td>
                 <td data-format="Rp#,##0_-" style="font-size: 20px; font-weight: bold; background-color: #00ffff">
-                    {{ $total_rencana_penerimaan }}</td>
+                    {{ $total_rencana_penerimaan }}
+                </td>
                 <td data-format="Rp#,##0_-" style="font-size: 20px; font-weight: bold; background-color: #00ffff">
-                    {{ $total_rencana_pengeluaran }}</td>
-                <td data-format="Rp#,##0_-" style="font-size: 20px; font-weight: bold; background-color: #00ffff">
-                    {{ $total_realisasi_penerimaan }}</td>
-                <td data-format="Rp#,##0_-" style="font-size: 20px; font-weight: bold; background-color: #00ffff">
-                    {{ $total_realisasi_pengeluaran }}</td>
+                    {{ $total_rencana_pengeluaran }}
+                </td>
                 <td data-format="Rp#,##0_-" style="font-size: 20px; font-weight: bold; background-color: #00ffff">
                 </td>
             </tr>

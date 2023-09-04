@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ReportExcel;
 use App\Exports\ReportGabungan;
 use App\Exports\ReportTriwulan;
+use App\Exports\ReportTriwulanRpka;
 use App\Models\Category;
 use App\Models\Center;
 use App\Models\Commission;
@@ -204,6 +205,37 @@ class ReportController extends Controller
 
         return view('user.laporan_narasi.index', ['data' => $data]);
     }
+
+    public function report_kegiatan_admin(Request $request, $id)
+    {
+        $department = Department::whereId($id)->first();
+
+        $year = YearCategory::orderBy('year_name', 'asc')->get();
+        $category = Category::orderBy('category_name', 'asc')->get();
+
+        if (isset($request->year) && isset($request->category)) {
+            $program_kerja_category = ProgramKerjaCategory::where('category_id', $request->category)->pluck('program_kerja_id');
+            $program_kerja_id = array_unique($program_kerja_category->toArray());
+            $program_kerja = ProgramKerja::where('departement_id', $department->id)
+                ->where('year_id', $request->year)
+                ->whereIn('id', $program_kerja_id)
+                ->where('acc', 1)
+                ->orderBy('id', 'desc')->get();
+        } else {
+            $program_kerja = [];
+        }
+
+        $data['page'] = "Laporan Kegiatan";
+        $data['list'] = $program_kerja;
+        $data['year'] = $year;
+        $data['category'] = $category;
+        $data['curr_year'] = $request->year;
+        $data['curr_category'] = $request->category;
+        $data['department'] = $department;
+
+        return view('admin.laporan_narasi.index', ['data' => $data]);
+    }
+
     public function report_narasi_admin($id, Request $request)
     {
         $department = Department::whereId($id)->first();
@@ -261,7 +293,7 @@ class ReportController extends Controller
             ->whereId($id)->first();
 
         $pp = ProgramKerjaCommission::where('program_kerja_id', $id)->pluck('commission_id');
-        $commission = Commission::whereId($pp)->pluck('name');
+        $commission = Commission::whereIn('id', $pp)->pluck('name');
 
         $data['list'] = $program_kerja;
         $data['department'] = $department;
@@ -289,7 +321,7 @@ class ReportController extends Controller
             ->whereId($id)->first();
 
         $pp = ProgramKerjaCommission::where('program_kerja_id', $id)->pluck('commission_id');
-        $commission = Commission::whereId($pp)->pluck('name');
+        $commission = Commission::whereIn('id', $pp)->pluck('name');
 
         $data = [];
         $data['list'] = $program_kerja;
@@ -331,7 +363,8 @@ class ReportController extends Controller
             ->whereId($id)->first();
 
         $pp = ProgramKerjaCommission::where('program_kerja_id', $id)->pluck('commission_id');
-        $commission = Commission::whereId($pp)->pluck('name');
+
+        $commission = Commission::whereIn('id', $pp)->pluck('name');
 
         $data = [];
         $data['list'] = $program_kerja;
@@ -360,7 +393,7 @@ class ReportController extends Controller
             ->whereId($id)->first();
 
         $pp = ProgramKerjaCommission::where('program_kerja_id', $id)->pluck('commission_id');
-        $commission = Commission::whereId($pp)->pluck('name');
+        $commission = Commission::whereIn('id', $pp)->pluck('name');
 
         $data = [];
         $data['list'] = $program_kerja;
@@ -399,6 +432,33 @@ class ReportController extends Controller
         $data['department'] = $department;
 
         return view('user.laporan_gabungan.index', ['data' => $data]);
+    }
+
+    public function report_gabungan_rpka()
+    {
+        $auth = Auth::user();
+        $data = [];
+
+        if ($auth->role == 4) {
+            $head = Head::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } elseif ($auth->role == 5) {
+            $head = KetuaBidang::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } else {
+            $department = Department::where('user_id', $auth->id)->first();
+        }
+        $year = YearCategory::orderBy('year_name', 'asc')->get();
+        $category = Category::orderBy('category_name', 'asc')->get();
+
+        $data['page'] = "Laporan Gabungan RPKA";
+        $data['year'] = $year;
+        $data['category'] = $category;
+        $data['department'] = $department;
+
+        return view('user.laporan_gabungan_rpka.index', ['data' => $data]);
     }
 
     public function report_gabungan_admin($id)
@@ -471,6 +531,43 @@ class ReportController extends Controller
         // return view('generate.laporan_gabungan', $data);
     }
 
+    public function report_gabungan_rpka_excel(Request $request)
+    {
+        $auth = Auth::user();
+
+        if ($auth->role == 4) {
+            $head = Head::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } elseif ($auth->role == 5) {
+            $head = KetuaBidang::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } else {
+            $department = Department::where('user_id', $auth->id)->first();
+        }
+
+        $year = YearCategory::whereId($request->year)->first();
+        $header_reports = HeaderReport::orderBy('order', 'asc')->get();
+
+        $program_kerja = ProgramKerja::with('year', 'pp.commission', 'pjp', 'type')
+            ->where('year_id', $request->year)
+            // ->where(function ($q) {
+            //     $q->where('acc', 0)
+            //         ->orWhereNull('acc');
+            // })
+            ->where('departement_id', $department->id)->get();
+
+        $data = [];
+        $data['list'] = $program_kerja;
+        $data['department'] = $department;
+        $data['year'] = $year;
+        $data['header_reports'] = $header_reports;
+
+        return Excel::download(new ReportGabungan($data), 'Laporan Rancangan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
+        // return view('generate.laporan_gabungan', $data);
+    }
+
     public function report_gabungan_excel_admin($id, Request $request)
     {
         $department = Department::whereId($id)->first();
@@ -537,9 +634,10 @@ class ReportController extends Controller
         $program_kerja = Category::with(['program_kerja_category.program_kerja' => function ($query) use ($request, $department) {
             $query->where('program_kerja.year_id', $request->year);
             $query->where('program_kerja.departement_id', $department->id);
+            $query->where('program_kerja.acc', 1);
         }])
             ->whereIn('id', $request->category)->get();
-        // dd($program_kerja[0]->program_kerja_category[0]);
+
         $data = [];
         $data['list'] = $program_kerja;
         $data['department'] = $department;
@@ -548,6 +646,46 @@ class ReportController extends Controller
         // $pdf = Pdf::loadView('generate.laporan_triwulan', $data)->setPaper('a4', 'landscape');;
         // return $pdf->download('Laporan Program Kerja dan Anggaran ' . $department->name . '.pdf');
         return Excel::download(new ReportTriwulan($data), 'Laporan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
+        // return view('generate.laporan_triwulan', $data);
+    }
+
+    public function report_triwulan_rpka_excel(Request $request)
+    {
+        $auth = Auth::user();
+
+        if ($auth->role == 4) {
+            $head = Head::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } elseif ($auth->role == 5) {
+            $head = KetuaBidang::where('user_id', $auth->id)->first();
+            $department = Department::whereId($head->department_id)->first();
+            $data['head'] = $head;
+        } else {
+            $department = Department::where('user_id', $auth->id)->first();
+        }
+
+        $year = YearCategory::whereId($request->year)->first();
+
+        $program_kerja = Category::with(['program_kerja_category.program_kerja' => function ($query) use ($request, $department) {
+            $query->where('program_kerja.year_id', $request->year);
+            $query->where('program_kerja.departement_id', $department->id);
+            // $query->where(function ($q) {
+            //     $q->where('program_kerja.acc', 0)
+            //         ->orWhereNull('program_kerja.acc');
+            // });
+        }])
+            ->whereIn('id', $request->category)->get();
+
+        $data = [];
+        $data['list'] = $program_kerja;
+        $data['department'] = $department;
+        $data['year'] = $year;
+
+        // $pdf = Pdf::loadView('generate.laporan_triwulan', $data)->setPaper('a4', 'landscape');;
+        // return $pdf->download('Laporan Program Kerja dan Anggaran ' . $department->name . '.pdf');
+        // return Excel::download(new ReportTriwulan($data), 'Laporan Rancangan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
+        return Excel::download(new ReportTriwulanRpka($data), 'Laporan Rancangan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
         // return view('generate.laporan_triwulan', $data);
     }
 
@@ -598,6 +736,7 @@ class ReportController extends Controller
         }
 
         $year = YearCategory::whereId($program_kerja_detail->year_id)->first();
+        //dd($category_id);
         $program_kerja = Category::with([
             'program_kerja_category' => function ($query) use ($program_kerja_category_id) {
                 $query->where('id', $program_kerja_category_id);
@@ -606,7 +745,7 @@ class ReportController extends Controller
                 $query->where('id', $program_kerja_detail->id);
             },
         ])
-            ->whereIn('id', [$category_id])->get();
+            ->whereIn('id', $category_id)->get();
 
         // dd($program_kerja);
         $data = [];
@@ -618,6 +757,41 @@ class ReportController extends Controller
         // return $pdf->download('Laporan Program Kerja dan Anggaran ' . $department->name . '.pdf');
         return Excel::download(new ReportExcel($data), 'Laporan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
         // return view('generate.laporan_kegiatan_excel', $data);
+    }
+
+    public function program_kerja_excel_admin($departement_id, $id)
+    {
+
+        $department = Department::whereId($departement_id)->first();
+
+        $program_kerja_detail = ProgramKerja::with('category')->whereId($id)->first();
+
+        $category_id = [];
+        $program_kerja_category_id = [];
+        foreach ($program_kerja_detail->category as $value) {
+            array_push($category_id, $value->category_id);
+        }
+        foreach ($program_kerja_detail->category as $value) {
+            array_push($program_kerja_category_id, $value->id);
+        }
+
+        $year = YearCategory::whereId($program_kerja_detail->year_id)->first();
+        $program_kerja = Category::with([
+            'program_kerja_category' => function ($query) use ($program_kerja_category_id) {
+                $query->where('id', $program_kerja_category_id);
+            },
+            'program_kerja_category.program_kerja' => function ($query) use ($program_kerja_detail) {
+                $query->where('id', $program_kerja_detail->id);
+            },
+        ])
+            ->whereIn('id', $category_id)->get();
+
+        $data = [];
+        $data['list'] = $program_kerja;
+        $data['department'] = $department;
+        $data['year'] = $year;
+
+        return Excel::download(new ReportExcel($data), 'Laporan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
     }
 
     public function program_kerja_pdf(Request $request, $id)
@@ -656,7 +830,7 @@ class ReportController extends Controller
                 $query->where('id', $program_kerja_detail->id);
             },
         ])
-            ->whereIn('id', [$category_id])->get();
+            ->whereIn('id', $category_id)->get();
 
         // dd($program_kerja);
         $data = [];
@@ -668,5 +842,41 @@ class ReportController extends Controller
         return $pdf->download('Laporan Program Kerja dan Anggaran ' . $department->name . '.pdf');
         // return Excel::download(new ReportExcel($data), 'Laporan Program Kerja dan Anggaran ' . $department->name . '.xlsx');
         // return view('generate.laporan_kegiatan_excel', $data);
+    }
+
+    public function program_kerja_pdf_admin($departement_id, $id)
+    {
+
+        $department = Department::whereId($departement_id)->first();
+
+        $program_kerja_detail = ProgramKerja::with('category')->whereId($id)->first();
+
+        $category_id = [];
+        $program_kerja_category_id = [];
+        foreach ($program_kerja_detail->category as $value) {
+            array_push($category_id, $value->category_id);
+        }
+        foreach ($program_kerja_detail->category as $value) {
+            array_push($program_kerja_category_id, $value->id);
+        }
+
+        $year = YearCategory::whereId($program_kerja_detail->year_id)->first();
+        $program_kerja = Category::with([
+            'program_kerja_category' => function ($query) use ($program_kerja_category_id) {
+                $query->where('id', $program_kerja_category_id);
+            },
+            'program_kerja_category.program_kerja' => function ($query) use ($program_kerja_detail) {
+                $query->where('id', $program_kerja_detail->id);
+            },
+        ])
+            ->whereIn('id', $category_id)->get();
+
+        $data = [];
+        $data['list'] = $program_kerja;
+        $data['department'] = $department;
+        $data['year'] = $year;
+
+        $pdf = Pdf::loadView('generate.laporan_kegiatan_pdf', $data)->setPaper('a4', 'landscape');;
+        return $pdf->download('Laporan Program Kerja dan Anggaran ' . $department->name . '.pdf');
     }
 }

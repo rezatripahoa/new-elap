@@ -51,7 +51,7 @@
             @php
                 $count_rutin = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'RUTIN';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'RUTIN';
                     }),
                 );
             @endphp
@@ -68,7 +68,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'RUTIN')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'RUTIN')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -86,8 +86,8 @@
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan = $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran = $val->program_kerja->realisasi_pengeluaran;
+                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
+                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach
@@ -96,7 +96,7 @@
             @php
                 $count_non_rutin = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'NON RUTIN';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'NON RUTIN';
                     }),
                 );
             @endphp
@@ -113,7 +113,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'NON RUTIN')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'NON RUTIN')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -131,8 +131,8 @@
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan = $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran = $val->program_kerja->realisasi_pengeluaran;
+                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
+                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach
@@ -141,7 +141,7 @@
             @php
                 $count_proyek = count(
                     array_filter($item->program_kerja_category->toArray(), function ($p) {
-                        return $p['program_kerja']['type']['name'] == 'PROYEK';
+                        return $p['program_kerja'] && $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'PROYEK';
                     }),
                 );
             @endphp
@@ -158,7 +158,7 @@
                 </tr>
             @endif
             @foreach ($item->program_kerja_category as $val)
-                @if ($val->program_kerja->type->name == 'PROYEK')
+                @if ($val->program_kerja && $val->program_kerja->type->name == 'PROYEK')
                     <tr>
                         <td>{{ $no }}</td>
                         <td>{{ $val->program_kerja->name }}</td>
@@ -176,8 +176,8 @@
                     @php
                         $total_rencana_penerimaan += $val->program_kerja->rencana_penerimaan;
                         $total_rencana_pengeluaran += $val->program_kerja->rencana_pengeluaran;
-                        $total_realisasi_penerimaan = $val->program_kerja->realisasi_penerimaan;
-                        $total_realisasi_pengeluaran = $val->program_kerja->realisasi_pengeluaran;
+                        $total_realisasi_penerimaan += $val->program_kerja->realisasi_penerimaan;
+                        $total_realisasi_pengeluaran += $val->program_kerja->realisasi_pengeluaran;
                     @endphp
                 @endif
             @endforeach

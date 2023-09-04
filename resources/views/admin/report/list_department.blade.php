@@ -3,14 +3,21 @@
 @section('content')
     @php
         $url_narasi = 'laporan_narasi_admin';
+        $url_pka = 'program_kerja_admin';
+        $url_kegiatan = 'laporan_kegiatan_admin';
         $url_gabungan = 'laporan_gabungan_admin';
         if (auth()->user()->role == 1) {
             $url_narasi = 'admin/' . $url_narasi . '_admin';
             $url_gabungan = 'admin/' . $url_gabungan . '_admin';
+            $url_pka = 'admin/' . $url_pka . '_admin';
+            $url_kegiatan = 'admin/' . $url_kegiatan . '_admin';
         } elseif (auth()->user()->role == 2) {
             $url_narasi = 'report/' . $url_narasi . '_report';
             $url_gabungan = 'report/' . $url_gabungan . '_report';
+            $url_pka = 'report/' . $url_pka . '_report';
+            $url_kegiatan = 'report/' . $url_kegiatan . '_report';
         }
+        $year = date('Y') . ' - ' . date('Y') + 1;
     @endphp
     <main>
         <p class="text-center text-secondary font-weight-bold h2 p-3">
@@ -38,10 +45,15 @@
                                     <td align="center">
                                         {{-- @php $year = date('Y') . ' - ' . date('Y') + 1; @endphp
                                         <a class="btn btn-realblue" href="{{url('admin/report')}}/{{$department->id}}?year={{$year}}">Lihat Laporan</a> --}}
-                                        <a class="btn btn-realblue w-100 mb-1"
+                                        <a class="btn btn-sm btn-realblue mb-1" style="width: 200px"
+                                            href="{{ url($url_pka . '/' . $department->id) }}?year={{$year}}">PKA</a>
+                                        <a class="btn btn-sm btn-realblue mb-1" style="width: 200px"
+                                            href="{{ url($url_kegiatan . '/' . $department->id) }}">Lihat
+                                            Laporan Kegiatan</a>
+                                        <a class="btn btn-sm btn-realblue mb-1" style="width: 200px"
                                             href="{{ url($url_narasi . '/' . $department->id) }}">Lihat
                                             Laporan Narasi</a>
-                                        <a class="btn btn-realblue w-100"
+                                        <a class="btn btn-sm btn-realblue" style="width: 200px"
                                             href="{{ url($url_gabungan . '/' . $department->id) }}">Lihat
                                             Laporan Gabungan</a>
                                     </td>

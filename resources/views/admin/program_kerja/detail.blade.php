@@ -1,4 +1,4 @@
-@extends('user/index')
+@extends('admin/index')
 
 @section('content')
     @php
@@ -23,12 +23,12 @@
                 <div class="form-group">
                     <label>Nama Program</label>
                     <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Program Kerja"
-                        value="{{ $data['list']->name }}">
+                        value="{{ $data['list']->name }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Sifat Program</label>
-                    <select class="form-control" name="type_id">
+                    <select class="form-control" name="type_id" readonly>
                         <option value="" selected>= Pilih Sifat Program =</option>
                         @foreach ($data['type'] as $item)
                             <option value="{{ $item->id }}" @if ($item->id == $data['list']->type_id) selected @endif>
@@ -39,7 +39,7 @@
 
                 <div class="form-group">
                     <label>Tahun</label>
-                    <select class="form-control" name="year_id">
+                    <select class="form-control" name="year_id" readonly>
                         <option value="" selected>= Pilih Tahun =</option>
                         @foreach ($data['year'] as $item)
                             <option value="{{ $item->id }}" @if ($item->id == $data['list']->year_id) selected @endif>
@@ -54,7 +54,7 @@
                         @foreach ($data['category'] as $item)
                             <div class="form-check form-check-inline">
                                 <input name="category[]" class="form-check-input" type="checkbox"
-                                    value="{{ $item->id }}" @if (in_array($item->id, $data['category_program'])) checked @endif>
+                                    value="{{ $item->id }}" @if (in_array($item->id, $data['category_program'])) checked @endif readonly>
                                 <label class="form-check-label">{{ $item->category_name }}</label>
                             </div>
                         @endforeach
@@ -63,7 +63,7 @@
 
                 <div class="form-group">
                     <label>Penanggung Jawab Program</label>
-                    <select class="form-control" name="pjp_id">
+                    <select class="form-control" name="pjp_id" readonly>
                         <option value="" selected>= Pilih PJP =</option>
                         @foreach ($data['list_department'] as $item)
                             <option value="{{ $item->id }}" @if ($item->id == $data['list']->pjp_id) selected @endif>
@@ -86,13 +86,13 @@
                 <div class="form-group">
                     <label>Tujuan Program</label>
                     <input type="text" class="form-control" name="tujuan" placeholder="Masukkan Tujuan"
-                        value="{{ $data['list']->tujuan }}">
+                        value="{{ $data['list']->tujuan }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Lokasi</label>
                     <input type="text" class="form-control" name="lokasi" placeholder="Masukkan Lokasi"
-                        value="{{ $data['list']->lokasi }}">
+                        value="{{ $data['list']->lokasi }}" readonly>
                 </div>
 
                 <div class="card">
@@ -103,14 +103,14 @@
                                 <div class="form-group">
                                     <label>Tanggal Dari</label>
                                     <input type="date" class="form-control" name="jadwal_start"
-                                        value="{{ $data['list']->jadwal_start }}">
+                                        value="{{ $data['list']->jadwal_start }}" readonly>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Tanggal Sampai</label>
                                     <input type="date" class="form-control" name="jadwal_end"
-                                        value="{{ $data['list']->jadwal_end }}">
+                                        value="{{ $data['list']->jadwal_end }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -122,42 +122,42 @@
                         <div class="col-6">
                             <label>Ruang Lingkup Inscope</label>
                             <input type="text" class="form-control" name="inscope"
-                                placeholder="Masukkan Ruang Lingkup Inscope" value="{{ $data['list']->inscope }}">
+                                placeholder="Masukkan Ruang Lingkup Inscope" value="{{ $data['list']->inscope }}" readonly>
                         </div>
 
                         <div class="col-6">
                             <label>Ruang Lingkup Outscope</label>
                             <input type="text" class="form-control" name="outscope"
-                                placeholder="Masukkan Realisasi Outscope" value="{{ $data['list']->outscope }}">
+                                placeholder="Masukkan Realisasi Outscope" value="{{ $data['list']->outscope }}" readonly>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Frekuensi</label>
-                    <input type="text" class="form-control" name="frekuensi" value="{{ $data['list']->frekuensi }}">
+                    <input type="text" class="form-control" name="frekuensi" value="{{ $data['list']->frekuensi }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Jumlah Peserta</label>
-                    <input type="number" class="form-control" name="peserta" value="{{ $data['list']->peserta }}">
+                    <input type="number" class="form-control" name="peserta" value="{{ $data['list']->peserta }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Evaluasi</label>
                     <input type="text" class="form-control" name="evaluasi" placeholder="Masukkan Evaluasi"
-                        value="{{ $data['list']->evaluasi }}">
+                        value="{{ $data['list']->evaluasi }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Tidak Lanjut</label>
                     <input type="text" class="form-control" name="tindak_lanjut" placeholder="Masukkan Tindak Lanjut"
-                        value="{{ $data['list']->tindak_lanjut }}">
+                        value="{{ $data['list']->tindak_lanjut }}" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <textarea class="form-control" name="keterangan" placeholder="Masukkan Keterangan">{{ $data['list']->keterangan }}</textarea>
+                    <textarea readonly class="form-control" name="keterangan" placeholder="Masukkan Keterangan">{{ $data['list']->keterangan }}</textarea>
                 </div>
 
                 <div class="form-group">
@@ -166,14 +166,14 @@
                             <label>Indikator Kuantitatif</label>
                             <input type="text" class="form-control" name="indikator_kuantitatif"
                                 placeholder="Masukkan Indikator Kuantitatif"
-                                value="{{ $data['list']->indikator_kuantitatif }}">
+                                value="{{ $data['list']->indikator_kuantitatif }}" readonly>
                         </div>
 
                         <div class="col-6">
                             <label>Indikator Kualitatif</label>
                             <input type="text" class="form-control" name="indikator_kualitatif"
                                 placeholder="Masukkan Indikator Kualitatif"
-                                value="{{ $data['list']->indikator_kualitatif }}">
+                                value="{{ $data['list']->indikator_kualitatif }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -184,14 +184,14 @@
                             <label>Realisasi Kuantitatif</label>
                             <input type="text" class="form-control" name="realisasi_kuantitatif"
                                 placeholder="Masukkan Realisasi Kuantitatif"
-                                value="{{ $data['list']->realisasi_kuantitatif }}">
+                                value="{{ $data['list']->realisasi_kuantitatif }}" readonly>
                         </div>
 
                         <div class="col-6">
                             <label>Realisasi Kualitatif</label>
                             <input type="text" class="form-control" name="realisasi_kualitatif"
                                 placeholder="Masukkan Realisasi Kualitatif"
-                                value="{{ $data['list']->realisasi_kualitatif }}">
+                                value="{{ $data['list']->realisasi_kualitatif }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -201,13 +201,13 @@
                         <div class="col-6">
                             <label>Rencana Penerimaan</label>
                             <input type="text" class="form-control currency-input" name="rencana_penerimaan"
-                                value="{{ $data['list']->rencana_penerimaan }}">
+                                value="{{ $data['list']->rencana_penerimaan }}" readonly>
                         </div>
 
                         <div class="col-6">
                             <label>Rencana Pengeluaran</label>
                             <input type="text" class="form-control currency-input" name="rencana_pengeluaran"
-                                value="{{ $data['list']->rencana_pengeluaran }}">
+                                value="{{ $data['list']->rencana_pengeluaran }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -217,13 +217,13 @@
                         <div class="col-6">
                             <label>Realisasi Penerimaan</label>
                             <input type="text" class="form-control currency-input" name="realisasi_penerimaan"
-                                value="{{ $data['list']->realisasi_penerimaan }}">
+                                value="{{ $data['list']->realisasi_penerimaan }}" readonly>
                         </div>
 
                         <div class="col-6">
                             <label>Realisasi Pengeluaran</label>
                             <input type="text" class="form-control currency-input" name="realisasi_pengeluaran"
-                                value="{{ $data['list']->realisasi_pengeluaran }}">
+                                value="{{ $data['list']->realisasi_pengeluaran }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -245,11 +245,6 @@
                         </div>
                     </div>
                 </div>
-                @if ($edit == true)
-                    <div>
-                        <button type="submit" class="btn btn-realblue w-100">UBAH</button>
-                    </div>
-                @endif
             </form>
         </div>
     </main>

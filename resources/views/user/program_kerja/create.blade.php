@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label>Sifat Program</label>
                     <select class="form-control" name="type_id">
-                        <option selected>= Pilih Sifat Program =</option>
+                        <option value="" selected>= Pilih Sifat Program =</option>
                         @foreach ($data['type'] as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
@@ -43,7 +43,7 @@
 
                 <div class="form-group">
                     <label>Tahun</label>
-                    <select class="form-control" name="year_id">
+                    <select value="" class="form-control" name="year_id">
                         <option selected>= Pilih Tahun =</option>
                         @foreach ($data['year'] as $item)
                             <option value="{{ $item->id }}">{{ $item->year_name }}</option>
@@ -67,7 +67,7 @@
                 <div class="form-group">
                     <label>Penanggung Jawab Program</label>
                     <select class="js-basic-simple form-control" name="pjp_id">
-                        <option selected>= Pilih PJP =</option>
+                        <option value="" selected>= Pilih PJP =</option>
                         @foreach ($data['list_department'] as $item)
                             <option value="{{ $item->id }}">{{ $item->department_name }}</option>
                         @endforeach
@@ -93,12 +93,27 @@
                     <input type="text" class="form-control" name="lokasi" placeholder="Masukkan Lokasi">
                 </div>
 
-                <div class="form-group">
-                    <label>Jadwal</label>
-                    <input type="date" class="form-control" name="jadwal_start">
+                <div class="card">
+                    <div class="card-header fw-bold">Jadwal</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tanggal Dari</label>
+                                    <input type="date" class="form-control" name="jadwal_start">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Tanggal Sampai</label>
+                                    <input type="date" class="form-control" name="jadwal_end">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <div class="row">
                         <div class="col-6">
                             <label>Ruang Lingkup Inscope</label>
@@ -147,6 +162,11 @@
                             <input type="text" class="form-control currency-input" name="rencana_pengeluaran">
                         </div>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Keterangan</label>
+                    <textarea class="form-control" name="keterangan" placeholder="Masukkan Keterangan"></textarea>
                 </div>
 
                 <div>

@@ -126,14 +126,14 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLable{{ $list->center_id }}">Tambah {{ $data['title'] }}</h5>
+                        <h5 class="modal-title" id="editModalLable{{ $list->center_id }}">Ubah {{ $data['title'] }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        <form action="{{ url('admin/center') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ url('admin/center') }}/{{ $list->center_id }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -144,6 +144,18 @@
                             <div class="form-group">
                                 <input class="form-control" type="text" name="username" value="{{ $list->username }}"
                                     placeholder="Masukkan Username">
+                            </div>
+                            
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password"
+                                    placeholder="(Jangan diisi jika tidak ingin diganti)">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="center_status" class="form-control">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-realblue w-100">SIMPAN</button>

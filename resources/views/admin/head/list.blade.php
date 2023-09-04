@@ -12,6 +12,15 @@
             </button>
         </div>
 
+        @if (Session::has('status'))
+            <div class="alert alert-success mt-3 text-center">
+                {{ Session::get('status') }}
+                @php
+                    Session::forget('status');
+                @endphp
+            </div>
+        @endif
+
 
         <div class="container my-2" style="min-height: 50vh">
             <div class="row mt-3">

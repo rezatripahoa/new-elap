@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ReportExcel implements FromView, ShouldAutoSize, WithEvents
+class ReportTriwulanRpka implements FromView, ShouldAutoSize, WithEvents
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -22,7 +22,7 @@ class ReportExcel implements FromView, ShouldAutoSize, WithEvents
 
     public function view(): View
     {
-        return view('generate.laporan_kegiatan_excel', $this->data);
+        return view('generate.laporan_triwulan_rpka_excel', $this->data);
     }
 
     public function registerEvents(): array
@@ -39,7 +39,7 @@ class ReportExcel implements FromView, ShouldAutoSize, WithEvents
                     ]
                 ];
                 $highestRow = $event->sheet->getDelegate()->getHighestRow();
-                $event->sheet->getDelegate()->getStyle('A7:K' . $highestRow)->applyFromArray($styleArray);
+                $event->sheet->getDelegate()->getStyle('A7:I' . $highestRow)->applyFromArray($styleArray);
             },
         ];
     }

@@ -132,8 +132,11 @@ class ProgramKerjaReportAttachmentController extends Controller
         $data['list'] = $program_kerja;
         $data['department'] = $department;
         $data['program_kerja'] = $program_kerja;
-
-        return view('user.program_kerja.attachment', ['data' => $data]);
+        if ($auth->role != 2) {
+            return view('user.program_kerja.attachment', ['data' => $data]);
+        } else {
+            return view('admin.program_kerja.attachment', ['data' => $data]);
+        }
     }
 
     /**

@@ -80,6 +80,8 @@ Route::group(['middleware' => 'role:2'], function () {
 
         Route::get('report_program_report', [ReportController::class, 'list_departement']);
 
+        Route::get('laporan_kegiatan_admin_report/{id}', [ReportController::class, 'report_kegiatan_admin']);
+
         Route::get('laporan_narasi_admin_report/{id}', [ReportController::class, 'report_narasi_admin']);
         Route::get('laporan_narasi_generate_admin_report/{id}/{department}', [ReportController::class, 'report_narasi_generate_admin']);
         Route::get('laporan_program_generate_admin_report/{id}/{department}', [ReportController::class, 'report_laporan_generate_admin']);
@@ -87,6 +89,13 @@ Route::group(['middleware' => 'role:2'], function () {
         Route::get('laporan_gabungan_admin_report/{id}', [ReportController::class, 'report_gabungan_admin']);
         Route::get('laporan_gabungan_generate_report/{id}', [ReportController::class, 'report_gabungan_excel_admin']);
         Route::get('laporan_triwulan_generate_report/{id}', [ReportController::class, 'report_triwulan_excel_admin']);
+
+        Route::get('program_kerja_admin_report/{id}', [ProgramKerjaController::class, "program_kerja_acc_admin"]);
+
+        Route::resource('program_kerja_report', ProgramKerjaController::class);
+        Route::resource('program_kerja_attachment_report', ProgramKerjaReportAttachmentController::class);
+        Route::get('program_kerja_excel_report/{departement_id}/{id}', [ReportController::class, "program_kerja_excel_admin"]);
+        Route::get('program_kerja_pdf_report/{departement_id}/{id}', [ReportController::class, "program_kerja_pdf_admin"]);
     });
 });
 
@@ -111,8 +120,15 @@ Route::group(['middleware' => 'role:3'], function () {
         Route::get('laporan_gabungan_generate', [ReportController::class, 'report_gabungan_excel']);
         Route::get('laporan_triwulan_generate', [ReportController::class, 'report_triwulan_excel']);
 
+        Route::get('laporan_gabungan_rpka', [ReportController::class, 'report_gabungan_rpka']);
+        Route::get('laporan_gabungan_rpka_generate', [ReportController::class, 'report_gabungan_rpka_excel']);
+        Route::get('laporan_triwulan_rpka_generate', [ReportController::class, 'report_triwulan_rpka_excel']);
+
         Route::get('program_kerja_excel/{id}', [ReportController::class, "program_kerja_excel"]);
         Route::get('program_kerja_pdf/{id}', [ReportController::class, "program_kerja_pdf"]);
+
+        Route::post('program-kerja-upload', [ProgramKerjaController::class, "importFromExcel"]);
+
     });
 });
 
@@ -134,6 +150,10 @@ Route::group(['middleware' => 'role:4'], function () {
         Route::get('laporan_gabungan_generate_head', [ReportController::class, 'report_gabungan_excel']);
         Route::get('laporan_triwulan_generate_head', [ReportController::class, 'report_triwulan_excel']);
 
+        Route::get('laporan_gabungan_rpka_head', [ReportController::class, 'report_gabungan_rpka']);
+        Route::get('laporan_gabungan_rpka_generate_head', [ReportController::class, 'report_gabungan_rpka_excel']);
+        Route::get('laporan_triwulan_rpka_generate_head', [ReportController::class, 'report_triwulan_rpka_excel']);
+
         Route::get('program_kerja_excel_head/{id}', [ReportController::class, "program_kerja_excel"]);
         Route::get('program_kerja_pdf_head/{id}', [ReportController::class, "program_kerja_pdf"]);
     });
@@ -151,5 +171,9 @@ Route::group(['middleware' => 'role:5'], function () {
         Route::get('laporan_gabungan_kabid', [ReportController::class, 'report_gabungan']);
         Route::get('laporan_gabungan_generate_kabid', [ReportController::class, 'report_gabungan_excel']);
         Route::get('laporan_triwulan_generate_kabid', [ReportController::class, 'report_triwulan_excel']);
+
+        Route::get('laporan_gabungan_rpka_kabid', [ReportController::class, 'report_gabungan_rpka']);
+        Route::get('laporan_gabungan_generate_rpka_kabid', [ReportController::class, 'report_gabungan_rpka_excel']);
+        Route::get('laporan_triwulan_generate_rpka_kabid', [ReportController::class, 'report_triwulan_rpka_excel']);
     });
 });

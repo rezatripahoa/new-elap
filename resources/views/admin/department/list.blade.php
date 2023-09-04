@@ -173,8 +173,8 @@
 
                             <div class="form-group">
                                 <select name="department_status" class="form-control">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Tidak Aktif</option>
+                                    <option value="1" @if($list->department_status ==1) selected @endif>Aktif</option>
+                                    <option value="0"@if($list->department_status ==0) selected @endif>Tidak Aktif</option>
                                 </select>
                             </div>
 

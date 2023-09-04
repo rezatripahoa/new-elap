@@ -31,12 +31,19 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     @yield('stylecss')
-
+    
     <style>
         .menu-active {
-            border-bottom: 1px solid #172e55;
-            border-right: 1px solid #172e55;
             padding: 5px;
+            color:#0B65BC !important;
+        }
+        
+        .menu-active a {
+            color:#0B65BC !important;
+        }
+        
+        .main-menu a{
+            color: #343a40;
         }
     </style>
 </head>
@@ -46,7 +53,7 @@
     @include('user/section/header')
     <div class="container">
         <div class="row" style="margin-top:20px;">
-            <div class="col-12 col-md-3 bg-realblue p-3">
+            <div class="col-12 col-md-3 bg-realblue p-3 main-menu">
                 @include('user/section/sidebar')
             </div>
             <div class="col-12 col-md-9">
@@ -147,8 +154,7 @@
                                 <div class="p-3 h6 font-weight-bold">
                                     <div class="">
                                         <i class="fa fa-book" style="font-size:20px;"></i>
-                                        <a class="text-dark ml-3"
-                                            href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Laporan
+                                        <a class="text-dark ml-3" href="{{ url('head/program_kerja_acc_head?year=' . $year) }}">Laporan
                                             Program Kerja (ACC)</a>
                                     </div>
                                 </div>
@@ -158,8 +164,7 @@
                                 <div class="p-3 h6 font-weight-bold">
                                     <div class="">
                                         <i class="fa fa-book" style="font-size:20px;"></i>
-                                        <a class="text-dark ml-3"
-                                            href="{{ url('head/laporan_narasi_head') }}">Laporan
+                                        <a class="text-dark ml-3" href="{{ url('head/laporan_narasi_head') }}">Laporan
                                             Program Kerja</a>
                                     </div>
                                 </div>

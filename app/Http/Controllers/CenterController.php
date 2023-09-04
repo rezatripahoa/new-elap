@@ -95,8 +95,9 @@ class CenterController extends Controller
     {
         //
         $value = Center::whereId($id)->first();
-        $value->department_name = $request->department_name;
-        $value->department_status = $request->department_status;
+        
+        $value->center_name = $request->center_name;
+        $value->center_status = $request->center_status;
         $value->save();
 
         $user = User::whereId($value->user_id)->first();

@@ -91,7 +91,7 @@
                 @php
                     $count_rutin = count(
                         array_filter($item->program_kerja_category->toArray(), function ($p) {
-                            return $p['program_kerja']['type']['name'] == 'RUTIN';
+                            return $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'RUTIN';
                         }),
                     );
                 @endphp
@@ -136,7 +136,7 @@
                 @php
                     $count_non_rutin = count(
                         array_filter($item->program_kerja_category->toArray(), function ($p) {
-                            return $p['program_kerja']['type']['name'] == 'NON RUTIN';
+                            return $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'NON RUTIN';
                         }),
                     );
                 @endphp
@@ -181,7 +181,7 @@
                 @php
                     $count_proyek = count(
                         array_filter($item->program_kerja_category->toArray(), function ($p) {
-                            return $p['program_kerja']['type']['name'] == 'PROYEK';
+                            return $p['program_kerja']['type'] && $p['program_kerja']['type']['name'] == 'PROYEK';
                         }),
                     );
                 @endphp
