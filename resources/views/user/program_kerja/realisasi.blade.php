@@ -4,8 +4,8 @@
         @php
             $url_base = 'program_kerja_realisasi';
             $url_lampiran = 'program_kerja_attachment';
-            $url_excel = 'program_kerja_realisasi_excel';
-            $url_pdf = 'program_kerja_realisasi_pdf';
+            $url_excel = 'program_kerja_excel';
+            $url_pdf = 'program_kerja_pdf';
             if (auth()->user()->role == 4) {
                 $url_base = 'head/' . $url_base . '_head';
                 $url_lampiran = 'head/' . $url_lampiran . '_head';

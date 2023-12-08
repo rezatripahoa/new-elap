@@ -289,7 +289,6 @@ class ProgramKerjaController extends Controller
             return redirect($url_base)->with('status', 'Data Berhasil di Simpan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             return redirect($url_base)->with('status', 'Data Gagal di Simpan');
         }
     }
@@ -316,8 +315,18 @@ class ProgramKerjaController extends Controller
 
         $list = ProgramKerja::with('category', 'pp')->whereId($id)->first();
         $year = YearCategory::orderBy('year_name', 'asc')->get();
-        $list_department = Department::orderBy('department_name', 'asc')->get();
-        $commission = Commission::orderBy('name', 'asc')->get();
+        $list_department = Department::orderBy('department_name', 'asc')
+            ->when($department->jenis, function ($q) use ($department) {
+                $q->where('jenis', $department->jenis);
+            })
+            ->get();
+        $commission = Commission::orderBy('name', 'asc')
+            ->when($department->jenis, function ($q) use ($department) {
+                $q->where('jenis', $department->jenis);
+            })
+            ->get();
+        // $list_department = Department::orderBy('department_name', 'asc')->get();
+        // $commission = Commission::orderBy('name', 'asc')->get();
         $type = ProgramKerjaType::orderBy('name', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
 
@@ -494,7 +503,6 @@ class ProgramKerjaController extends Controller
             return redirect($url_base)->with('status', 'Data Berhasil Disimpan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             return redirect($url_base)->with('status', 'Data Gagal Disimpan');
         }
     }
@@ -577,7 +585,6 @@ class ProgramKerjaController extends Controller
             return redirect($url_base)->with('status', 'Data Berhasil Disimpan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
             return redirect($url_base)->with('status', 'Data Gagal Disimpan');
         }
     }

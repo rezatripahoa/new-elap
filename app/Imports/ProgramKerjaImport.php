@@ -17,8 +17,9 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 
-class ProgramKerjaImport implements ToCollection, WithStartRow
+class ProgramKerjaImport implements ToCollection, WithStartRow, WithCalculatedFormulas
 {
     /**
      * @param Collection $collection
@@ -49,10 +50,29 @@ class ProgramKerjaImport implements ToCollection, WithStartRow
         $auth = Auth::user();
         foreach ($rows as $key => $row) {
             try {
-                if ($row[0]) {
+                DB::beginTransaction();
+                if ($row[0] && $row[3]) {
                     $year = YearCategory::where('year_name', trim($row[2]))->first();
+                    if (!$year) {
+                        $message = "Tahun " . $row[2] . " Tidak Terdaftar atau Salah Penulisan";
+                        $this->message = $message;
+                        break;
+                    }
+
                     $type = ProgramKerjaType::where('name', strtoupper($row[1]))->first();
+                    if (!$type) {
+                        $message = "Type " . $row[1] . " Tidak Terdaftar atau Salah Penulisan";
+                        $this->message = $message;
+                        break;
+                    }
+
                     $pjp = Department::where('department_name', $row[4])->first();
+                    if (!$pjp) {
+                        $message = "Penopang " . $row[4] . " Tidak Terdaftar atau Salah Penulisan";
+                        $this->message = $message;
+                        break;
+                    }
+
                     $tanggal_selesai = "";
                     $tanggal_mulai = "";
 
@@ -89,8 +109,8 @@ class ProgramKerjaImport implements ToCollection, WithStartRow
                     $value->frekuensi = $row[12];
                     $value->peserta = 0;
                     $value->waktu = null;
-                    $value->jadwal_end = $tanggal_selesai;
-                    $value->jadwal_start = $tanggal_mulai;
+                    $value->jadwal_end = $date_tanggal_selesai;
+                    $value->jadwal_start = $date_tanggal_mulai;
                     $value->tindak_lanjut = "";
                     $value->keterangan = $row[17];
                     $value->created_user = $auth->id;
@@ -99,7 +119,11 @@ class ProgramKerjaImport implements ToCollection, WithStartRow
 
                     foreach ($category as $item) {
                         $cat = Category::where('category_name', $item)->first();
-
+                        if (!$cat) {
+                            $message = "Kategori " . $item . " Tidak Terdaftar atau Salah Penulisan";
+                            $this->message = $message;
+                            break;
+                        }
                         $pkc = new ProgramKerjaCategory();
                         $pkc->program_kerja_id = $value->id;
                         $pkc->category_id = $cat->id;
@@ -108,14 +132,31 @@ class ProgramKerjaImport implements ToCollection, WithStartRow
 
                     foreach ($pp as $item) {
                         $com = Commission::where('name', $item)->first();
-
+                        if (!$com) {
+                            $message = "Kategori " . $item . " Tidak Terdaftar atau Salah Penulisan";
+                            $this->message = $message;
+                            break;
+                        }
+                        // if ($com) {
                         $pkpp = new ProgramKerjaCommission();
                         $pkpp->program_kerja_id = $value->id;
                         $pkpp->commission_id = $com->id;
                         $pkpp->save();
+                        // } else {
+                        //     $com = new Commission();
+                        //     $com->name = $item;
+                        //     $com->save();
+
+                        //     $pkpp = new ProgramKerjaCommission();
+                        //     $pkpp->program_kerja_id = $value->id;
+                        //     $pkpp->commission_id = $com->id;
+                        //     $pkpp->save();
+                        // }
                     }
                 }
+                DB::commit();
             } catch (\Throwable $th) {
+                DB::rollBack();
                 dd($th);
                 $message = "Gagal";
                 $this->message = $message;

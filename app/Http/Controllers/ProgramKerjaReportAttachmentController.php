@@ -102,7 +102,6 @@ class ProgramKerjaReportAttachmentController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollBack();
-            dd($th);
             return redirect($url_base . '/' . $proker_id)->with('status', 'Data Gagal di Simpan');
         }
     }

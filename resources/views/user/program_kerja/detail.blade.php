@@ -78,7 +78,7 @@
                     <select class="js-basic-multiple form-control" name="pp[]" multiple="multiple">
                         @foreach ($data['commission'] as $item)
                             <option value="{{ $item->id }}" @if (in_array($item->id, $data['pp_program'])) selected @endif>
-                                {{ $item->id }}</option>
+                                {{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
