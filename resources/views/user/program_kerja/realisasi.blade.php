@@ -94,3 +94,12 @@
             </div>
         </main>
     @endsection
+    
+    @section('footerjs')
+    <script>
+        function changeYear(e) {
+            let year = e.value;
+            window.location.href = "{{ url($url_base) }}?year=" + year
+        }
+    </script>
+@endsection

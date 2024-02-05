@@ -54,21 +54,21 @@ class ProgramKerjaImport implements ToCollection, WithStartRow, WithCalculatedFo
                 if ($row[0] && $row[3]) {
                     $year = YearCategory::where('year_name', trim($row[2]))->first();
                     if (!$year) {
-                        $message = "Tahun " . $row[2] . " Tidak Terdaftar atau Salah Penulisan";
+                        $message = "Program " . $row[0] . ", Tahun " . $row[2] . " Tidak Terdaftar atau Salah Penulisan";
                         $this->message = $message;
                         break;
                     }
 
                     $type = ProgramKerjaType::where('name', strtoupper($row[1]))->first();
                     if (!$type) {
-                        $message = "Type " . $row[1] . " Tidak Terdaftar atau Salah Penulisan";
+                        $message = "Program " . $row[0] . ", Type " . $row[1] . " Tidak Terdaftar atau Salah Penulisan";
                         $this->message = $message;
                         break;
                     }
 
                     $pjp = Department::where('department_name', $row[4])->first();
                     if (!$pjp) {
-                        $message = "Penopang " . $row[4] . " Tidak Terdaftar atau Salah Penulisan";
+                        $message = "Program " . $row[0]. ", PJP " . $row[4] . " Tidak Terdaftar atau Salah Penulisan";
                         $this->message = $message;
                         break;
                     }
@@ -133,7 +133,7 @@ class ProgramKerjaImport implements ToCollection, WithStartRow, WithCalculatedFo
                     foreach ($pp as $item) {
                         $com = Commission::where('name', $item)->first();
                         if (!$com) {
-                            $message = "Kategori " . $item . " Tidak Terdaftar atau Salah Penulisan";
+                            $message = "Program " . $row[0] . ", Penopang " . $item . " Tidak Terdaftar atau Salah Penulisan";
                             $this->message = $message;
                             break;
                         }

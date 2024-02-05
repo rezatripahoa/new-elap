@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class ProgramKerjaController extends Controller
 {
@@ -105,9 +106,17 @@ class ProgramKerjaController extends Controller
         } else {
             $department = Department::where('user_id', $auth->id)->first();
         }
+        
+        $year_query = "";
+        if ($request->get('year')) {
+            $year_query = YearCategory::where('year_name', $request->get('year'))->first();
+        }
 
         $program_kerja = ProgramKerja::with('year')->orderBy('id', 'desc')
             ->where('departement_id', $department->id)
+             ->when($year_query != "", function ($q) use ($year_query) {
+                $q->where('year_id', $year_query->id);
+            })
             ->where('acc', 1)->get();
         $year = YearCategory::orderBy('year_name', 'asc')->get();
 
@@ -374,7 +383,11 @@ class ProgramKerjaController extends Controller
 
         $list = ProgramKerja::with('category', 'pp')->whereId($id)->first();
         $year = YearCategory::orderBy('year_name', 'asc')->get();
-        $list_department = Department::orderBy('department_name', 'asc')->get();
+        $list_department = Department::orderBy('department_name', 'asc')
+            ->when($department->jenis, function ($q) use ($department) {
+                $q->where('jenis', $department->jenis);
+            })
+            ->get();
         $commission = Commission::orderBy('name', 'asc')->get();
         $type = ProgramKerjaType::orderBy('name', 'asc')->get();
         $category = Category::orderBy('category_name', 'asc')->get();
@@ -622,24 +635,48 @@ class ProgramKerjaController extends Controller
 
     public function importFromExcel(Request $request)
     {
-        $auth = Auth::user();
-        $department = Department::where('user_id', $auth->id)->first();
+        // Validate the uploaded file
+    $validator = Validator::make($request->all(), [
+        'uploaded_file' => 'required|mimes:xls,xlsx|max:10240', // Adjust max file size as needed
+    ]);
 
-        $file = $request->file('uploaded_file');
+    if ($validator->fails()) {
+        return redirect('department/dashboard')
+            ->withErrors($validator)
+            ->withInput();
+    }
 
-        // membuat nama file unik
-        $nama_file = rand() . $file->getClientOriginalName();
+    $auth = Auth::user();
+    $department = Department::where('user_id', $auth->id)->first();
 
-        // upload ke folder file_siswa di dalam folder public
-        $file->move('assets/uploads', $nama_file);
-        // import data
-        $import = new ProgramKerjaImport($department);
+    // Get the uploaded file
+    $file = $request->file('uploaded_file');
+
+    // Generate a unique file name
+    $nama_file = uniqid() . '_' . $file->getClientOriginalName();
+
+    // Move the file to the specified directory
+    $file->move(public_path('assets/uploads'), $nama_file);
+
+    // Import data using Laravel Excel
+    $import = new ProgramKerjaImport($department);
+
+    try {
         Excel::import($import, public_path('assets/uploads/' . $nama_file));
+    } catch (\Exception $e) {
+        // Handle import exceptions if needed
+        return redirect('department/dashboard')->with('status', 'Error during import: ' . $e->getMessage());
+    }
 
-        if ($import->getError() != "") {
-            return redirect('department/dashboard')->with('status', $import->getError());
-        }
+    // Check if there were any import errors
+    if ($import->getError() != "") {
+        return redirect('department/dashboard')->with('status', $import->getError());
+    }
 
-        return redirect('department/dashboard')->with('status', 'Data Berhasil Ditambahkan');
+    // If successful, you might want to delete the uploaded file
+    // Uncomment the line below if you want to delete the file after import
+    // unlink(public_path('assets/uploads/' . $nama_file));
+
+    return redirect('department/dashboard')->with('status', 'Import successful');
     }
 }
